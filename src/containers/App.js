@@ -1,22 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter as Router } from 'connected-react-router';
+import { Route, Switch } from 'react-router-dom'
+import { ConnectedRouter as Router } from 'connected-react-router'
 import { history } from '../redux'
 import { ToastContainer } from 'react-toastify'
 
 
-import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
+import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication'
 
 import { path } from '../utils'
 
-import Home from '../routes/Home';
-import Login from '../routes/Login';
-import Header from './Header/Header';
-import System from '../routes/System';
+import Home from '../routes/Home'
+import Login from './Auth/Login'
+import Header from './Header/Header'
+import System from '../routes/System'
 
-import { CustomToastCloseButton } from '../components/CustomToast';
-import ConfirmModal from '../components/ConfirmModal';
+import { CustomToastCloseButton } from '../components/CustomToast'
+import ConfirmModal from '../components/ConfirmModal'
 
 class App extends Component {
 
@@ -70,7 +70,7 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         started: state.app.started,
-        isLoggedIn: state.admin.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn
     };
 };
 
