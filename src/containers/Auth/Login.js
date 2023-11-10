@@ -88,7 +88,7 @@ class Login extends Component {
                         <CssBaseline />
                         <Grid item xs={false} sm={4} md={7}
                             sx={{
-                                backgroundImage: 'url(https://avatars.githubusercontent.com/u/121484216?v=4)',
+                                backgroundImage: 'url(https://images.unsplash.com/photo-1682686581427-7c80ab60e3f3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundColor: (t) =>
                                     t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -108,8 +108,8 @@ class Login extends Component {
                                 <Typography component="h1" variant="h5">
                                     Sign in
                                 </Typography>
-                                {/*noValidate   - cái này trong Box bên dưới*/}
-                                <Box component="form" onSubmit={this.handleSubmit} sx={{ mt: 1 }}>
+                                {/*   - cái này trong Box bên dưới*/}
+                                <Box component="form" noValidate onSubmit={this.handleSubmit} sx={{ mt: 1 }}>
                                     <TextField margin="normal" required fullWidth
                                         id="email"
                                         label="Email Address"

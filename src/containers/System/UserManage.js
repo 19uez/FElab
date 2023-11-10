@@ -1,24 +1,133 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+
+
+import * as React from 'react';
+
+import './UserManager.scss'
+
+import { getAllUser } from '../../services/userService';
+import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import ModalUser from './ModalUser';
 class UserManage extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            arrUsers: [],
+            isOpenModalUser: false,
+        }
+    }
     state = {
 
     }
+    async componentDidMount() {
+        let response = await getAllUser('All')
+        if (response && response.errCode === 0) {
+            //setState la ham bat dong bo
+            this.setState({
+                arrUsers: response.users,
 
-    componentDidMount() {
-
+            })
+        }
     }
-
-
+    handleAddNewUsers = () => {
+        this.setState({
+            isOpenModalUser: true,
+        })
+    }
+    toggleUserModal = () => {
+        this.setState({
+            isOpenModalUser: !this.state.isOpenModalUser,
+        })
+    }
     render() {
-        return (
-            <div className="text-center">Manage users</div>
-        );
-    }
 
+        let arrUsers = this.state.arrUsers
+        return (
+
+            <div className="users-container" >
+                <ModalUser
+                    isOpen={this.state.isOpenModalUser}
+                    toggleFromParent={this.toggleUserModal}
+                />
+                <div className='title text-center'>
+                    Lab members
+                </div>
+                <div className='px-3 '>
+                    <Button startIcon={<AddBoxIcon />} sx={{
+                        color: 'white',
+                        bgcolor: '#2e86de',
+                        fontFamily: 'Arial',
+                        fontWeight: 'bold',
+                        pl: 2,
+                        py: 1,
+                        ':hover': {
+                            bgcolor: '#2980b9',
+                        },
+                        textTransform: 'none',
+
+                    }}
+                        onClick={() => this.handleAddNewUsers()}>
+                        Add New Members
+                    </Button>
+
+                </div>
+                <div className='users-table mt-3 mx-1'>
+                    <table id="customers">
+                        <tbody>
+                            <tr>
+                                <th>Email</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                            {arrUsers && arrUsers.map((item, index) => {
+                                return (
+                                    <tr>
+                                        <td>{item.email}</td>
+                                        <td>{item.firstName}</td>
+                                        <td>{item.lastName}</td>
+                                        <td>{item.phone}</td>
+                                        <td>{item.role}</td>
+                                        <td>{item.isActive}</td>
+                                        <td>
+                                            <Button startIcon={<EditIcon />} sx={{
+                                                color: '#F79F1F',
+                                                borderColor: '#F79F1F',
+                                                '&:hover': { borderColor: '#EE5A24' }
+                                            }}>
+
+                                            </Button>
+                                            <Button startIcon={<DeleteIcon />} sx={{
+                                                color: '#eb2f06',
+                                                borderColor: '#e55039',
+                                                '&:hover': { borderColor: '#b71540' },
+                                            }}>
+
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        )
+    }
 }
+
+
 
 const mapStateToProps = state => {
     return {
@@ -30,4 +139,5 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserManage);
+// export default connect(mapStateToProps, mapDispatchToProps)(UserManage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserManage)
