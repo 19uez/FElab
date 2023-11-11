@@ -19,4 +19,6 @@ export const deleteUser = (userId) => {
             }
         })
 }
-//  default handleLoginApi
+export const editUser = (inputData) => {
+    return axios.put('/api/edit-user', inputData)
+}

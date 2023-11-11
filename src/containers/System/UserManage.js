@@ -7,13 +7,14 @@ import * as React from 'react';
 
 import './UserManager.scss'
 
-import { getAllUser, creatNewUserService, deleteUser } from '../../services/userService';
+import { getAllUser, creatNewUserService, deleteUser, editUser } from '../../services/userService';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ModalUser from './ModalUser';
 import { emitter } from '../../utils/emitter'
+import ModalEditUser from './ModalEditUser';
 class UserManage extends Component {
 
     constructor(props) {
@@ -21,6 +22,8 @@ class UserManage extends Component {
         this.state = {
             arrUsers: [],
             isOpenModalUser: false,
+            isOpenModalEditUser: false,
+            userEdit: {}
         }
     }
     state = {
@@ -49,6 +52,11 @@ class UserManage extends Component {
             isOpenModalUser: !this.state.isOpenModalUser,
         })
     }
+    toggleEditUserModal = () => {
+        this.setState({
+            isOpenModalEditUser: !this.state.isOpenModalEditUser
+        })
+    }
 
     creatNewUser = async (data) => {
         try {
@@ -67,7 +75,7 @@ class UserManage extends Component {
         }
     }
 
-    handleDeleteUSer = async (user) => {
+    handleDeleteUser = async (user) => {
         try {
             let res = await deleteUser(user.id)
             if (res && res.errCode === 0) {
@@ -79,7 +87,30 @@ class UserManage extends Component {
             console.log(e)
         }
     }
+    handleEditUser = async (user) => {
+        console.log('check edit user', user)
+        this.setState({
+            isOpenModalEditUser: true,
+            userEdit: user
+        })
+    }
 
+    doEditUser = async (user) => {
+        try {
+            let res = await editUser(user)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isOpenModalEditUser: false,
+
+                })
+                await this.getAllUserFormReact()
+            } else {
+                alert(res.errCode)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
     render() {
 
         let arrUsers = this.state.arrUsers
@@ -91,6 +122,16 @@ class UserManage extends Component {
                     toggleFromParent={this.toggleUserModal}
                     creatNewUser={this.creatNewUser}
                 />
+                {
+                    this.state.isOpenModalEditUser &&
+                    <ModalEditUser
+                        isOpen={this.state.isOpenModalEditUser}
+                        toggleFromParent={this.toggleEditUserModal}
+                        currentUser={this.state.userEdit}
+                        editUser={this.doEditUser}
+                    />
+                }
+
                 <div className='title text-center'>
                     Lab members
                 </div>
@@ -141,7 +182,9 @@ class UserManage extends Component {
                                                 borderColor: '#F79F1F',
                                                 '&:hover': { borderColor: '#EE5A24' }
                                             }}
-
+                                                onClick={() => {
+                                                    this.handleEditUser(item)
+                                                }}
                                             >
 
                                             </Button>
@@ -151,7 +194,7 @@ class UserManage extends Component {
                                                 '&:hover': { borderColor: '#b71540' },
                                             }}
                                                 onClick={() => {
-                                                    this.handleDeleteUSer(item)
+                                                    this.handleDeleteUser(item)
                                                 }}>
 
                                             </Button>
