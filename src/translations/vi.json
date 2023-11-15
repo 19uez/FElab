@@ -1,4 +1,8 @@
 {
+    "homeheader": {
+        "workspace": "nơi làm việc",
+        "recent": "hiện tại"
+    },
     "common": {
         "add": "Thêm",
         "edit": "Sửa",

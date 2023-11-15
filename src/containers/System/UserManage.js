@@ -8,13 +8,14 @@ import * as React from 'react';
 import './UserManager.scss'
 
 import { getAllUser, creatNewUserService, deleteUser, editUser } from '../../services/userService';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ModalUser from './ModalUser';
 import { emitter } from '../../utils/emitter'
 import ModalEditUser from './ModalEditUser';
+import Tooltip from '@mui/material/Tooltip'
 class UserManage extends Component {
 
     constructor(props) {
@@ -111,12 +112,19 @@ class UserManage extends Component {
             console.log(e)
         }
     }
+    divStyle = () => {
+
+    }
+
     render() {
 
         let arrUsers = this.state.arrUsers
         return (
 
-            <div className="users-container" >
+            <div
+                className="users-container"
+
+            >
                 <ModalUser
                     isOpen={this.state.isOpenModalUser}
                     toggleFromParent={this.toggleUserModal}
@@ -177,27 +185,35 @@ class UserManage extends Component {
                                         <td>{item.role}</td>
                                         <td>{item.isActive}</td>
                                         <td>
-                                            <Button startIcon={<EditIcon />} sx={{
-                                                color: '#F79F1F',
-                                                borderColor: '#F79F1F',
-                                                '&:hover': { borderColor: '#EE5A24' }
-                                            }}
-                                                onClick={() => {
-                                                    this.handleEditUser(item)
-                                                }}
-                                            >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+                                                <Tooltip title='Edit this members' >
+                                                    <EditIcon
+                                                        sx={{
+                                                            color: '#F79F1F',
+                                                            borderColor: '#F79F1F',
+                                                            '&:hover': { borderColor: '#EE5A24' },
+                                                            cursor: 'pointer'
+                                                        }}
+                                                        onClick={() => {
+                                                            this.handleEditUser(item)
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                                <Tooltip title='Delete this members' >
+                                                    <DeleteIcon
+                                                        sx={{
+                                                            color: '#eb2f06',
+                                                            borderColor: '#e55039',
+                                                            '&:hover': { borderColor: '#b71540' },
+                                                            cursor: 'pointer'
+                                                        }}
+                                                        onClick={() => {
+                                                            this.handleDeleteUser(item)
+                                                        }}
 
-                                            </Button>
-                                            <Button startIcon={<DeleteIcon />} sx={{
-                                                color: '#eb2f06',
-                                                borderColor: '#e55039',
-                                                '&:hover': { borderColor: '#b71540' },
-                                            }}
-                                                onClick={() => {
-                                                    this.handleDeleteUser(item)
-                                                }}>
-
-                                            </Button>
+                                                    />
+                                                </Tooltip>
+                                            </Box>
                                         </td>
                                     </tr>
                                 )
@@ -206,7 +222,7 @@ class UserManage extends Component {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div >
         )
     }
 }
