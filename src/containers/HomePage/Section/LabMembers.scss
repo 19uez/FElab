@@ -1,14 +1,14 @@
-.section-project {
-    height: 330px;
-    background: #f5f5f5;
+.section-lab-members {
+    height: 450px;
+    background: #ecf0f1;
 
-    .project-container {
+    .lab-members-container {
         margin: 0 100px;
         display: flex;
         flex-direction: column;
     }
 
-    .project-header {
+    .lab-members-header {
         height: 60px;
         margin-bottom: 30px;
         padding-top: 30px;
@@ -36,16 +36,17 @@
         }
     }
 
-    .project-body {
-        .project-cusomize {
-            .bg-image-projects {
+    .lab-members-body {
+        .lab-members-cusomize {
+            .bg-image {
                 width: 278px;
-                height: 150px;
-                background: url('../../../assets/projects/elearning-800x380.png');
+                height: 300px;
+                background: url('../../../assets/lab-members/anh_CV-600x600.jpg');
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-color: #eee;
+                border-radius: 16px;
             }
         }
 

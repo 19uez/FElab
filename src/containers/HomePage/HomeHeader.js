@@ -25,6 +25,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import './HomeHeader.scss'
 import Language from './Menus/Language';
 import { FormattedMessage } from 'react-intl';
+import imageHeader from '../../assets/header-background.jpg'
 class HomeHeader extends Component {
     constructor(props) {
         super(props)
@@ -45,29 +46,33 @@ class HomeHeader extends Component {
     render() {
         return (
             <React.Fragment>
-                <Box px={2} sx={{
-                    width: '100%',
-                    height: '60px',
-                    display: 'plex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: 2,
-                    overflowX: 'auto',
-                    bgcolor: '#1565c0',
-                    '&::-webkit-scrollbar': {
-                        width: '10px',
-                        height: '10px'
-                    },
+                <Box
+                    px={2}
+                    sx={{
+                        // position: 'fixed',
+                        // zIndex: 1500,
+                        width: '100%',
+                        height: '60px',
+                        display: 'plex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 2,
+                        overflowX: 'auto',
+                        bgcolor: '#1565c0',
+                        '&::-webkit-scrollbar': {
+                            width: '10px',
+                            height: '10px'
+                        },
 
-                    '&::-webkit-scrollbar-track': {
-                        backgroundColor: '#fafafa'
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: '#ced0da',
-                        borderRadius: '8px'
-                    },
-                    '&::-webkit-scrollbar-thumb:hover': { backgroundColor: '#bfc2cf' },
-                }}>
+                        '&::-webkit-scrollbar-track': {
+                            backgroundColor: '#fafafa'
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            backgroundColor: '#ced0da',
+                            borderRadius: '8px'
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': { backgroundColor: '#bfc2cf' },
+                    }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <AppsIcon sx={{ color: 'white', cursor: 'pointer' }} />
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -141,11 +146,12 @@ class HomeHeader extends Component {
 
                 </Box >
                 <Box sx={{
-                    backgroundImage: 'url(https://images.unsplash.com/photo-1682686581427-7c80ab60e3f3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
+                    marginTop: '5px',
+                    backgroundImage: `url(${imageHeader})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    height: '485px',
+                    height: '600px',
                 }}>
 
                 </Box>

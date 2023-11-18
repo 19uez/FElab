@@ -7,8 +7,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './Projects.scss'
-
-import labImg from '../../../assets/projects/elearning-800x380.png'
 class Project extends Component {
     render() {
         let settings = {
@@ -30,27 +28,27 @@ class Project extends Component {
                     <div className='project-body'>
                         <Slider {...settings} >
                             <div className='project-cusomize'>
-                                <div className='bg-image'></div>
+                                <div className='bg-image-projects'></div>
                                 <div>Xây dựng hệ thống đào tạo elearning cho ngành KTYS 1</div>
                             </div>
                             <div className='project-cusomize'>
-                                <div className='bg-image'></div>
+                                <div className='bg-image-projects'></div>
                                 <div>Xây dựng hệ thống đào tạo elearning cho ngành KTYS 2</div>
                             </div>
                             <div className='project-cusomize'>
-                                <div className='bg-image'></div>
+                                <div className='bg-image-projects'></div>
                                 <div>Xây dựng hệ thống đào tạo elearning cho ngành KTYS 3</div>
                             </div>
                             <div className='project-cusomize'>
-                                <div className='bg-image'></div>
+                                <div className='bg-image-projects'></div>
                                 <div>Xây dựng hệ thống đào tạo elearning cho ngành KTYS 4</div>
                             </div>
                             <div className='project-cusomize'>
-                                <div className='bg-image'></div>
+                                <div className='bg-image-projects'></div>
                                 <div>Xây dựng hệ thống đào tạo elearning cho ngành KTYS 5</div>
                             </div>
                             <div className='project-cusomize'>
-                                <div className='bg-image'></div>
+                                <div className='bg-image-projects'></div>
                                 <div>Xây dựng hệ thống đào tạo elearning cho ngành KTYS 6</div>
                             </div>
                         </Slider>
