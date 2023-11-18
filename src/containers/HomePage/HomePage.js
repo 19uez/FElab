@@ -2,14 +2,18 @@ import Container from '@mui/material/Container'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HomeHeader from './HomeHeader';
-import HomeBanner from './HomeBanner';
+import Projects from './Section/Projects';
+import Box from '@mui/material/Box';
 class HomePage extends Component {
 
     render() {
         return (
             <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
                 <HomeHeader />
-                {/* <HomeBanner /> */}
+                <Projects />
+                <Box sx={{ height: 300, border: 1, borderColor: 'red' }}>
+
+                </Box>
             </Container >
         )
     }

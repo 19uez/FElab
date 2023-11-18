@@ -1,7 +1,8 @@
 {
     "homeheader": {
-        "workspace": "121",
-        "recent": "2121"
+        "single": "Single",
+        "double": "Double",
+        "recent": "Recent"
     },
     "common": {
         "add": "Add",

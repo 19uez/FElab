@@ -13,8 +13,8 @@ import reduxStore, { persistor } from './redux';
 
 const renderApp = () => {
     ReactDOM.render(
-        <Provider store={reduxStore}>
-            <IntlProviderWrapper theme={theme}>
+        <Provider store={reduxStore} theme={theme}>
+            <IntlProviderWrapper >
                 <CssBaseline />
                 <App persistor={persistor} />
             </IntlProviderWrapper>

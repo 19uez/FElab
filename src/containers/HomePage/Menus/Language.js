@@ -6,10 +6,20 @@ import GTranslateIcon from '@mui/icons-material/GTranslate';
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { FormattedMessage } from 'react-intl';
+import { LANGUAGES } from '../../../utils/constant'
+//dong mo ngoac la import bien
+
+import { changeLanguageApp } from '../../../store/actions'
 class Language extends Component {
 
+    changeLanguage = (language) => {
+        this.props.changeLanguageAppRedux(language)
+
+        //khai bao event actions
+    }
+
     render() {
-        console.log('check props: ', this.props)
+        let language = this.props.language
         return (
             <Box sx={{
                 display: 'flex',
@@ -19,16 +29,16 @@ class Language extends Component {
                 pr: 2,
             }} >
                 <GTranslateIcon />
-                <Box sx={{ cursor: 'pointer' }}>
+                <Box sx={{ cursor: 'pointer', color: language === LANGUAGES.VI ? '#fbc531' : 'white', ":hover": { color: '#fbc531', opacity: '0.8' } }} >
                     <Tooltip title='Translate to Vietnamese'>
-                        <Typography>
+                        <Typography onClick={() => this.changeLanguage(LANGUAGES.VI)} >
                             VN
                         </Typography>
                     </Tooltip>
                 </Box>
-                <Box sx={{ cursor: 'pointer' }}>
+                <Box sx={{ cursor: 'pointer', color: language === LANGUAGES.EN ? '#e84118' : 'white', ":hover": { color: '#c23616', opacity: '0.8' } }}>
                     <Tooltip title='Translate to English'>
-                        <Typography >
+                        <Typography onClick={() => this.changeLanguage(LANGUAGES.EN)}>
                             EN
                         </Typography>
                     </Tooltip>
@@ -48,6 +58,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
     };
 };
 

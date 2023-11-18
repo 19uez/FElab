@@ -24,6 +24,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import ClearIcon from '@mui/icons-material/Clear'
 import './HomeHeader.scss'
 import Language from './Menus/Language';
+import { FormattedMessage } from 'react-intl';
 class HomeHeader extends Component {
     constructor(props) {
         super(props)
@@ -72,7 +73,7 @@ class HomeHeader extends Component {
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
 
                             <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
-                                Trello
+                                CLQA Lab
                             </Typography>
 
                         </Box>
@@ -156,7 +157,8 @@ class HomeHeader extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        language: state.app.language,
     };
 };
 
