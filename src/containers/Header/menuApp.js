@@ -1,15 +1,30 @@
 export const adminMenu = [
-    { //hệ thống
-        name: 'menu.system.header', menus: [
+    { //Quản lý user
+        name: 'menu.admin.manage-user',
+        menus: [
             {
-                name: 'menu.system.system-administrator.header',
-                subMenus: [
-                    { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
-                    { name: 'menu.system.system-administrator.product-manage', link: '/system/product-manage' },
-                    { name: 'menu.system.system-administrator.register-package-group-or-account', link: '/system/register-package-group-or-account' },
-                ]
+                name: 'menu.admin.manage-admin', link: '/system/user-admin'
+                // subMenus: [
+                //     { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
+                //     { name: 'menu.system.system-administrator.user-redux', link: '/system/user-redux' },
+                // ]
             },
-            // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
+            {
+                name: 'menu.admin.crud-user', link: '/system/user-manage'
+
+            },
+            {
+                name: 'menu.admin.crud-redux', link: '/system/user-redux'
+
+            },
+        ]
+    },
+    { //Quản lý projects
+        name: 'menu.admin.project', menus: [
+            {
+                name: 'menu.admin.manage-project', link: '/system/manage-project'
+
+            },
         ]
     },
 ];

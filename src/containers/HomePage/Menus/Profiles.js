@@ -1,4 +1,4 @@
-import Container from '@mui/material/Container'
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Box from '@mui/material/Box'
@@ -17,7 +17,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 
-import { FormattedMessage } from 'react-intl';
+
 
 class Profiles extends Component {
     constructor(props) {

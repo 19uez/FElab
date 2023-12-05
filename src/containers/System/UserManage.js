@@ -123,7 +123,6 @@ class UserManage extends Component {
 
             <div
                 className="users-container"
-
             >
                 <ModalUser
                     isOpen={this.state.isOpenModalUser}

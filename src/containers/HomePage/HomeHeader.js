@@ -45,6 +45,7 @@ class HomeHeader extends Component {
     }
     render() {
         return (
+
             <React.Fragment>
                 <Box
                     px={2}
@@ -152,6 +153,7 @@ class HomeHeader extends Component {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     height: '600px',
+                    boxShadow: '0 10px 10px rgba(0,0,0,0.5)',
                 }}>
 
                 </Box>
