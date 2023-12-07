@@ -1,5 +1,5 @@
 .section-lab-members {
-    height: 450px;
+    height: 520px;
     background: #ecf0f1;
 
     .lab-members-container {
@@ -38,10 +38,16 @@
 
     .lab-members-body {
         .lab-members-cusomize {
+            padding: 0px 15px;
+            width: 100%;
+            cursor: pointer;
+            // border: 1px solid #95a5a6;
+            // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+
             .bg-image {
-                width: 278px;
+                width: 100%;
                 height: 300px;
-                background: url('../../../assets/lab-members/anh_CV-600x600.jpg');
+                // background: url('../../../assets/lab-members/anh_CV-600x600.jpg');
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;

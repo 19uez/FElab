@@ -1,9 +1,10 @@
 export const path = {
     HOME: '/',
-    HOMEPAGE: 'home',
+    HOMEPAGE: '/home',
     LOGIN: '/login',
     LOG_OUT: '/logout',
-    SYSTEM: '/system'
+    SYSTEM: '/system',
+    DETAIl_MEMBER: '/detail-member/:id',
 };
 
 export const LANGUAGES = {

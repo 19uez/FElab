@@ -25,3 +25,6 @@ export const editUser = (inputData) => {
 export const getAllCodeService = (inputType) => {
     return axios.get(`/api/allcode?type=${inputType}`)
 }
+export const saveDetailMemberService = (data) => {
+    return axios.post('/api/save-infor-members', data)
+}

@@ -1,5 +1,8 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, creatNewUserService, getAllUser, deleteUser, editUser } from '../../services/userService'
+import {
+    getAllCodeService, creatNewUserService,
+    getAllUser, deleteUser, editUser, saveDetailMemberService
+} from '../../services/userService'
 import { toast } from 'react-toastify'
 import { dispatch } from '../../redux';
 export const fetchGenderStart = () => {
@@ -64,7 +67,7 @@ export const fetchRoleStart = () => {
     return async (dispacth, getState) => {
         try {
 
-            let res = await getAllCodeService('POSITION')
+            let res = await getAllCodeService('ROLE')
             if (res && res.errCode === 0) {
                 dispacth(fetchRoleSuccess(res.data))
             } else {
@@ -182,3 +185,25 @@ export const editUserSuccess = (data) => ({
 export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED,
 })
+
+
+
+export const saveDetailMember = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await saveDetailMemberService(data)
+            if (res && res.errCode === 0) {
+                toast.success('Save infor member success')
+                dispatch({ type: actionTypes.SAVE_DETAIL_MEMBER_SUCCESS })
+            } else {
+                toast.error('Save infor member error!')
+                dispatch({ type: actionTypes.dispatch({ type: actionTypes.SAVE_DETAIL_MEMBER_SUCCESS }) })
+            }
+
+        } catch (e) {
+            toast.error('Save infor member error!')
+            dispatch({ type: actionTypes.dispatch({ type: actionTypes.SAVE_DETAIL_MEMBER_SUCCESS }) })
+            console.log('SAVE_DETAIL_MEMBER_SUCCESS error', e)
+        }
+    }
+}

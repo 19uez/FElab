@@ -3,17 +3,8 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
 
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-
 import { getAllCodeService } from '../../../services/userService'
-import { LANGUAGES, CRUD_ACTIONS } from '../../../utils'
+import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from '../../../utils'
 
 import './UserRedux.scss'
 import Lightbox from 'react-image-lightbox'
@@ -62,11 +53,11 @@ const statusUser = [
 ];
 const roleLab = [
     {
-        value: 'admin',
+        value: 'R1',
         label: 'Quản lý'
     },
     {
-        value: 'user',
+        value: 'R2',
         label: 'Nhân viên'
     },
 ];
@@ -79,13 +70,11 @@ class UserRedux extends Component {
             lastName: '',
             email: '',
             password: '',
-            role: 'user',
+            role: '',
             phone: '',
-            sex: 'M',
-            isActive: '1',
+            sex: '',
+            isActive: '',
             // showPassword: false,
-
-
 
             genderArr: [],
             roleArr: [],
@@ -164,21 +153,24 @@ class UserRedux extends Component {
                 lastName: '',
                 email: '',
                 password: '',
-                role: 'user',
+                role: '',
                 phone: '',
-                sex: 'M',
-                isActive: '1',
-                action: CRUD_ACTIONS.CREATE
+                sex: '',
+                isActive: '',
+                action: CRUD_ACTIONS.CREATE,
+                previewImgURL: ''
             })
         }
     }
-    handleOnChangeImage = (event) => {
+    handleOnChangeImage = async (event) => {
         let data = event.target.files
         let file = data[0]
         if (file) {
+            let base64 = await CommonUtils.getBase64(file)
             let objectUrl = URL.createObjectURL(file)
             this.setState({
-                previewImgURL: objectUrl
+                previewImgURL: objectUrl,
+                avatar: base64
             })
         }
     }
@@ -203,6 +195,7 @@ class UserRedux extends Component {
                 isActive: this.state.isActive,
                 password: this.state.password,
                 deleteAt: this.state.deleteAt,
+                avatar: this.state.avatar,
             })
         }
         if (action === CRUD_ACTIONS.EDIT) {
@@ -216,6 +209,7 @@ class UserRedux extends Component {
                 isActive: this.state.isActive,
                 password: this.state.password,
                 deleteAt: this.state.deleteAt,
+                avatar: this.state.avatar,
             })
         }
 
@@ -233,6 +227,10 @@ class UserRedux extends Component {
         return isValid
     }
     handleEditUserFromParent = (user) => {
+        let imageBase64 = ''
+        if (user.image) {
+            imageBase64 = new Buffer(user.image, 'base64').toString('binary')
+        }
         this.setState({
             userEditId: user.id,
             firstName: user.firstName,
@@ -244,10 +242,11 @@ class UserRedux extends Component {
             password: 'HARDCODE',
             deleteAt: user.deleteAt,
             action: CRUD_ACTIONS.EDIT,
+            previewImgURL: imageBase64,
         })
     }
     render() {
-        console.log('check state: ', this.state)
+        // console.log('check state: ', this.state)
         let genders = this.state.genderArr;
         let roles = this.state.roleArr
         let positions = this.state.positionArr
@@ -413,9 +412,10 @@ class UserRedux extends Component {
                                                     <TextField
                                                         fullWidth
                                                         label="Status"
-                                                        name="status"
+                                                        name="isActive"
                                                         onChange={(event) => this.handleChange(event)}
                                                         required
+                                                        defaultValue='1'
                                                         select
                                                         SelectProps={{ native: true }}
                                                         value={this.state.statusUser}
@@ -506,26 +506,25 @@ class UserRedux extends Component {
                                                     </Box>
                                                 </Grid> */}
 
-                                                {/* 
-                                                <div
-
-                                                >
-                                                    <div
-                                                    >
-                                                        <input id='previewImg' type='file' hidden
+                                                <Grid xs={12} md={2}>
+                                                    <div>
+                                                        <input
+                                                            id='previewImg'
+                                                            type='file'
+                                                            hidden
                                                             onChange={(event) => this.handleOnChangeImage(event)}
+                                                        />
+                                                        <label className='label-upload' htmlFor='previewImg'>
+                                                            Tai anh <i className='fas fa-upload' />
+                                                        </label>
+                                                        <div
+                                                            className='preview-image'
+                                                            style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
+                                                            onClick={() => this.openPreviewImage()}
                                                         >
-                                                            <label className='label-upload' htmlFor='previewImg'> Tai anh <i className='fas fa-upload' /></label>
-                                                            <div className='preview-image'
-                                                                style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
-                                                                onClick={() => this.openPreviewImage()}
-                                                            >
-
-                                                            </div>
-                                                        </input>
+                                                        </div>
                                                     </div>
-                                                </div> */}
-
+                                                </Grid>
                                             </Grid>
                                         </Box>
                                     </CardContent>
@@ -548,7 +547,7 @@ class UserRedux extends Component {
                                         </Button>
                                     </CardActions>
                                     <Divider sx={{ my: '1.2rem' }} />
-                                    <Box >
+                                    <Box sx={{ height: '330px' }}>
                                         <TableManageUser
                                             handleEditUserFromParentKey={this.handleEditUserFromParent} />
                                     </Box>
@@ -558,8 +557,8 @@ class UserRedux extends Component {
                     </div>
                 </div>
 
-                {/* {this.state.isOpen === true && <Lightbox mainSrc={this.state.previewImgURL}
-                    onCloseRequest={() => this.setState({ isOpen: false })} />} */}
+                {this.state.isOpen === true && <Lightbox mainSrc={this.state.previewImgURL}
+                    onCloseRequest={() => this.setState({ isOpen: false })} />}
             </div >
         )
     }

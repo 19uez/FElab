@@ -8,6 +8,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip'
+
+
 class TableManagerUser extends Component {
 
     constructor(props) {
@@ -37,65 +39,69 @@ class TableManagerUser extends Component {
     render() {
         let arrUsers = this.state.usersRedux
         return (
-            <table id="TableManagerUser">
-                <tbody>
-                    <tr>
-                        <th>Email</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
+            <React.Fragment>
+                <table id="TableManagerUser">
+                    <tbody>
+                        <tr>
+                            <th>Email</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
 
-                    {arrUsers && arrUsers.length > 0 && arrUsers.map((item, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>{item.email}</td>
-                                <td>{item.firstName}</td>
-                                <td>{item.lastName}</td>
-                                <td>{item.phone}</td>
-                                <td>{item.role}</td>
-                                <td>{item.isActive}</td>
-                                <td>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                                        <Tooltip title='Edit this members' >
-                                            <EditIcon
-                                                sx={{
-                                                    color: '#F79F1F',
-                                                    borderColor: '#F79F1F',
-                                                    '&:hover': { borderColor: '#EE5A24' },
-                                                    cursor: 'pointer'
-                                                }}
-                                                onClick={() => {
-                                                    this.handleEditUser(item)
-                                                }}
-                                            />
-                                        </Tooltip>
-                                        <Tooltip title='Delete this members' >
-                                            <DeleteIcon
-                                                sx={{
-                                                    color: '#eb2f06',
-                                                    borderColor: '#e55039',
-                                                    '&:hover': { borderColor: '#b71540' },
-                                                    cursor: 'pointer'
-                                                }}
-                                                onClick={() => {
-                                                    this.handleDeleteUser(item)
-                                                }}
+                        {arrUsers && arrUsers.length > 0 && arrUsers.map((item, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{item.email}</td>
+                                    <td>{item.firstName}</td>
+                                    <td>{item.lastName}</td>
+                                    <td>{item.phone}</td>
+                                    <td>{item.role}</td>
+                                    <td>{item.isActive}</td>
+                                    <td>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+                                            <Tooltip title='Edit this members' >
+                                                <EditIcon
+                                                    sx={{
+                                                        color: '#F79F1F',
+                                                        borderColor: '#F79F1F',
+                                                        '&:hover': { borderColor: '#EE5A24' },
+                                                        cursor: 'pointer'
+                                                    }}
+                                                    onClick={() => {
+                                                        this.handleEditUser(item)
+                                                    }}
+                                                />
+                                            </Tooltip>
+                                            <Tooltip title='Delete this members' >
+                                                <DeleteIcon
+                                                    sx={{
+                                                        color: '#eb2f06',
+                                                        borderColor: '#e55039',
+                                                        '&:hover': { borderColor: '#b71540' },
+                                                        cursor: 'pointer'
+                                                    }}
+                                                    onClick={() => {
+                                                        this.handleDeleteUser(item)
+                                                    }}
 
-                                            />
-                                        </Tooltip>
-                                    </Box>
-                                </td>
-                            </tr>
-                        )
-                    })
-                    }
-                </tbody>
-            </table>
+                                                />
+                                            </Tooltip>
+                                        </Box>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                        }
+                    </tbody>
+                </table>
+            </React.Fragment>
         )
+
+
     }
 
 }
