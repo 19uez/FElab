@@ -2,7 +2,7 @@
     "homeheader": {
         "single": "Single",
         "double": "Double",
-        "recent": "Recent",
+        "member": "Members",
         "welcome": "Welcome"
     },
     "menu": {
@@ -24,7 +24,10 @@
             "crud-user": "CRUD User",
             "crud-redux": "CRUD Redux",
             "manage-project": "Manage Projects",
-            "project": "Projects"
+            "project": "Projects",
+            "schedule": "Meeting Schedule",
+            "team": "Team",
+            "manage-team": "Manage Team"
         }
     }
 }

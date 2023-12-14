@@ -53,11 +53,11 @@ const statusUser = [
 ];
 const roleLab = [
     {
-        value: 'R1',
+        value: 'admin',
         label: 'Quản lý'
     },
     {
-        value: 'R2',
+        value: 'user',
         label: 'Nhân viên'
     },
 ];
@@ -389,7 +389,7 @@ class UserRedux extends Component {
                                                         name="role"
                                                         onChange={(event) => this.handleChange(event)}
                                                         required
-                                                        defaultValue='user'
+                                                        defaultValue='R1'
                                                         select
                                                         SelectProps={{ native: true }}
                                                         value={this.state.roleLab}
@@ -515,7 +515,7 @@ class UserRedux extends Component {
                                                             onChange={(event) => this.handleOnChangeImage(event)}
                                                         />
                                                         <label className='label-upload' htmlFor='previewImg'>
-                                                            Tai anh <i className='fas fa-upload' />
+                                                            Tải ảnh <i className='fas fa-upload' />
                                                         </label>
                                                         <div
                                                             className='preview-image'

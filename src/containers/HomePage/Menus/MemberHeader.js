@@ -14,7 +14,7 @@ import Check from '@mui/icons-material/Check'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 
-class Recent extends Component {
+class MemberHeader extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -41,7 +41,7 @@ class Recent extends Component {
         return (
             <Box>
                 <Button
-                    sx={{ color: 'white' }}
+                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '12px' }}
                     id="basic-button-recent"
                     aria-controls={this.state.open ? 'basic-menu-recent' : undefined}
                     aria-haspopup="true"
@@ -49,7 +49,7 @@ class Recent extends Component {
                     onClick={(event) => this.handleClick(event)}
                     endIcon={<ExpandMoreIcon />}
                 >
-                    <FormattedMessage id="homeheader.recent" />
+                    <FormattedMessage id="homeheader.member" />
                 </Button>
                 <Menu
                     id="basic-menu-recent"
@@ -104,4 +104,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Recent);
+export default connect(mapStateToProps, mapDispatchToProps)(MemberHeader);

@@ -28,3 +28,13 @@ export const getAllCodeService = (inputType) => {
 export const saveDetailMemberService = (data) => {
     return axios.post('/api/save-infor-members', data)
 }
+export const createNewProject = (data) => {
+    return axios.post('/api/create-new-project', data)
+}
+
+export const getAllProjectService = () => {
+    return axios.get('/api/get-all-project')
+}
+export const getDetailInforMember = (inputId) => {
+    return axios.get(`/api/get-detail-member-by-id?id=${inputId}`)
+}

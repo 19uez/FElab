@@ -5,6 +5,7 @@ export const path = {
     LOG_OUT: '/logout',
     SYSTEM: '/system',
     DETAIl_MEMBER: '/detail-member/:id',
+    DETAIl_PROJECT: '/detail-project/:id',
 };
 
 export const LANGUAGES = {
@@ -31,4 +32,8 @@ export const CRUD_ACTIONS = {
     EDIT: 'EDIT',
     DELETE: 'DELETE',
     READ: 'READ',
+}
+export const USER_ROLE = {
+    ADMIN: 'admin',
+    USER: 'user',
 }

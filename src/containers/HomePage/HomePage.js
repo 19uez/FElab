@@ -13,7 +13,7 @@ class HomePage extends Component {
     render() {
         return (
             <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
-                <HomeHeader />
+                <HomeHeader isShowBanner={true} />
                 <Divider sx={{ fontFamily: '', fontSize: '1.4rem', fontWeight: '550', color: '#435278', marginY: '30px', paddingX: '60px' }}>
                     PROJECTS
                 </Divider>

@@ -18,6 +18,7 @@ import { CustomToastCloseButton } from '../components/CustomToast'
 
 import HomePage from './HomePage/HomePage.js'
 import DetailMember from './Members/User/DetailMember.js';
+import DetailProject from './System/project/DetailProject.js';
 
 class App extends Component {
 
@@ -53,6 +54,7 @@ class App extends Component {
                                 <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                 <Route path={path.HOMEPAGE} component={HomePage} />
                                 <Route path={path.DETAIl_MEMBER} component={DetailMember} />
+                                <Route path={path.DETAIl_PROJECT} component={DetailProject} />
                             </Switch>
                         </div>
 

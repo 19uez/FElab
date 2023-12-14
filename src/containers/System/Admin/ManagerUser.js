@@ -8,6 +8,9 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select'
+import { getAllUser } from '../../../services/userService';
+import { getDetailInforMember } from '../../../services/userService'
+import { CRUD_ACTIONS } from '../../../utils/constant';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -21,6 +24,7 @@ class ManagerUser extends Component {
             selectedOption: '',
             description: '',
             listMembers: [],
+            hasOldData: false
         }
     }
     componentDidMount() {
@@ -42,16 +46,39 @@ class ManagerUser extends Component {
         })
     }
     handleSaveContentMarkdown = () => {
+        let { hasOldData } = this.state
         this.props.saveDetailMember({
             contentHTML: this.state.contentHTML,
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
+            action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
+
             userId: this.state.selectedOption.value,
+
         })
-        console.log('check state: ', this.state)
+        // console.log('check state: ', this.state)
     }
-    handleChange = selectedOption => {
+    handleChangeSelect = async (selectedOption) => {
+
         this.setState({ selectedOption })
+        let res = await getDetailInforMember(selectedOption.value)
+        if (res && res.errCode === 0 && res.data && res.data.Markdown) {
+            let markdown = res.data.Markdown
+            this.setState({
+                contentHTML: markdown.contentHTML,
+                contentMarkdown: markdown.contentMarkdown,
+                description: markdown.description,
+                hasOldData: true
+            })
+        } else {
+            this.setState({
+                contentHTML: '',
+                contentMarkdown: '',
+                description: '',
+                hasOldData: false
+            })
+        }
+        console.log('selected option: ', res)
     }
     handleOnChangeDesc = (event) => {
         this.setState({ description: event.target.value })
@@ -69,8 +96,9 @@ class ManagerUser extends Component {
         return result
     }
     render() {
+        let { hasOldData } = this.state
         let arrUsers = this.state.usersRedux
-        console.log('members', this.state)
+        // console.log('members', this.state)
         return (
             <React.Fragment>
                 <div className='manage-user-container'>
@@ -82,7 +110,7 @@ class ManagerUser extends Component {
                             <label>Chon thanh vien</label>
                             <Select
                                 value={this.state.selectedOption}
-                                onChange={this.handleChange}
+                                onChange={this.handleChangeSelect}
                                 options={this.state.listMembers}
                             />
                         </div>
@@ -101,6 +129,7 @@ class ManagerUser extends Component {
                             style={{ height: '500px' }}
                             renderHTML={text => mdParser.render(text)}
                             onChange={this.handleEditorChange}
+                            value={this.state.contentMarkdown}
                         />
                         <button onClick={() => this.handleSaveContentMarkdown()}
                             className='save-content-user'

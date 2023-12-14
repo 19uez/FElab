@@ -6,10 +6,10 @@ import AppsIcon from '@mui/icons-material/Apps'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import Workspace from './Menus/Workspace'
-import Recent from './Menus/Recent'
-import Starred from './Menus/Starred'
-import Templates from './Menus/Templates'
+import IntroHeader from './Menus/IntroHeader'
+import MemberHeader from './Menus/MemberHeader'
+import ProjectsHeader from './Menus/ProjectsHeader'
+import CourseHeader from './Menus/CourseHeader'
 import Profiles from './Menus/Profiles'
 
 import Button from '@mui/material/Button'
@@ -26,6 +26,7 @@ import './HomeHeader.scss'
 import Language from './Menus/Language';
 import { FormattedMessage } from 'react-intl';
 import imageHeader from '../../assets/header-background.jpg'
+import { withRouter } from 'react-router';
 class HomeHeader extends Component {
     constructor(props) {
         super(props)
@@ -42,6 +43,11 @@ class HomeHeader extends Component {
         this.setState({
             searchValue: ''
         });
+    }
+    returnHome = () => {
+        if (this.props.history) {
+            this.props.history.push('/home')
+        }
     }
     render() {
         return (
@@ -75,25 +81,19 @@ class HomeHeader extends Component {
                         '&::-webkit-scrollbar-thumb:hover': { backgroundColor: '#bfc2cf' },
                     }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <AppsIcon sx={{ color: 'white', cursor: 'pointer' }} />
+                        <AppsIcon onClick={() => this.returnHome()} sx={{ color: 'white', cursor: 'pointer' }} />
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
 
-                            <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
+                            <Typography variant='span' sx={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
                                 CLQA Lab
                             </Typography>
 
                         </Box>
                         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-                            <Workspace />
-                            <Recent />
-                            <Starred />
-                            <Templates />
-                            <Button
-                                sx={{ color: 'white' }}
-                                startIcon={<LibraryAddIcon />}
-                            >
-                                Creat
-                            </Button>
+                            <IntroHeader />
+                            <MemberHeader />
+                            <ProjectsHeader />
+                            <CourseHeader />
                         </Box>
                     </Box>
 
@@ -145,18 +145,20 @@ class HomeHeader extends Component {
                         <Profiles />
                     </Box>
 
-                </Box >
-                <Box sx={{
-                    marginTop: '5px',
-                    backgroundImage: `url(${imageHeader})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    height: '600px',
-                    boxShadow: '0 10px 10px rgba(0,0,0,0.5)',
-                }}>
+                </Box >{
+                    this.props.isShowBanner === true &&
+                    <Box sx={{
+                        marginTop: '5px',
+                        backgroundImage: `url(${imageHeader})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        height: '600px',
+                        boxShadow: '0 10px 10px rgba(0,0,0,0.5)',
+                    }}>
 
-                </Box>
+                    </Box>}
+
             </React.Fragment>
         )
     }
@@ -175,4 +177,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

@@ -9,16 +9,39 @@ import Language from '../HomePage/Menus/Language';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
+import _ from 'lodash';
+import { USER_ROLE } from '../../utils';
 class Header extends Component {
-
+    constructor(props) {
+        super(props)
+        this.state = ({
+            menuApp: []
+        })
+    }
+    componentDidMount() {
+        let { userInfo } = this.props
+        let menu = []
+        if (userInfo && !_.isEmpty(userInfo)) {
+            let role = userInfo.role
+            if (role === USER_ROLE.ADMIN) {
+                menu = adminMenu
+            }
+            if (role === USER_ROLE.USER) {
+                menu = []
+            }
+        }
+        this.setState({
+            menuApp: menu
+        })
+    }
     render() {
         const { processLogout, userInfo } = this.props;
-        console.log('check  user info: ', userInfo)
+
         return (
             <div className="header-container">
 
                 <div className="header-tabs-container">
-                    <Navigator menus={adminMenu} />
+                    <Navigator menus={this.state.menuApp} />
                 </div>
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ paddingTop: '10px', display: 'flex' }}>

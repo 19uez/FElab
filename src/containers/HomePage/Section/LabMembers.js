@@ -27,11 +27,14 @@ class LabMembers extends Component {
         this.props.loadUsers()
     }
     handleViewDetailMember = (member) => {
-        console.log('view infor: ', member)
-        this.props.history.push(`/detail-member/${member.id}`)
+        // console.log('view infor: ', member)
+        if (this.props.history) {
+            this.props.history.push(`/detail-member/${member.id}`)
+        }
+
     }
     render() {
-        console.log('check lab member: ', this.props.membersRedux)
+        // console.log('check lab member: ', this.props.membersRedux)
         let settings = {
             dots: true,
             infinite: true,
