@@ -7,46 +7,32 @@ import Button from '@mui/material/Button'
 import { withRouter } from 'react-router';
 
 
-class IntroHeader extends Component {
+class ManageMemberInHeader extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            anchorEl: null,
-            open: false,
         }
 
     }
-
-
-    handleClick = (event) => {
-        this.setState({
-            anchorEl: event.currentTarget,
-            open: true,
-        })
-    }
-    handleClose = () => {
-        this.setState({
-            anchorEl: null,
-            open: false,
-        })
-    }
-    toIntroduce = () => {
+    goToManage = () => {
         if (this.props.history) {
-            this.props.history.push('/introduce')
+            this.props.history.push('/system/user-redux')
         }
     }
+
+
     render() {
         return (
             <Box>
                 <Button
                     sx={{ color: 'white', fontWeight: 'bold', fontSize: '12px' }}
-                    id="basic-button-workspaces"
-                    aria-controls={this.state.open ? 'basic-menu-workspaces' : undefined}
+                    id="basic-button-templates"
+                    aria-controls={this.state.open ? 'basic-menu-templates' : undefined}
                     aria-haspopup="true"
                     aria-expanded={this.state.open ? 'true' : undefined}
-                    onClick={() => this.toIntroduce()}
+                    onClick={() => this.goToManage()}
                 >
-                    Introduction
+                    Manage Member
                 </Button>
             </Box>
         )
@@ -57,6 +43,7 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 
@@ -65,4 +52,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(IntroHeader));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ManageMemberInHeader));
+
+
+

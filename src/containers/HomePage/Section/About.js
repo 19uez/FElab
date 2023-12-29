@@ -6,7 +6,7 @@ class About extends Component {
         return (
 
             <Box>
-                Nothing
+
             </Box>
         )
     }

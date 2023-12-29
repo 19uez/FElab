@@ -1,35 +1,30 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Avatar from '@mui/material/Avatar'
-
 import Divider from '@mui/material/Divider'
 import ListItemIcon from '@mui/material/ListItemIcon'
-
-
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
+import * as actions from '../../../store/actions'
+import LogoutIcon from '@mui/icons-material/Logout';
 
-import PersonAdd from '@mui/icons-material/PersonAdd'
-import Settings from '@mui/icons-material/Settings'
-import Logout from '@mui/icons-material/Logout'
-
-
+import { withRouter } from 'react-router';
 
 class Profiles extends Component {
     constructor(props) {
         super(props)
-        this.state = {
+        this.state = ({
             anchorEl: null,
             open: false,
-        }
+        })
 
     }
-
-
     handleClick = (event) => {
         this.setState({
             anchorEl: event.currentTarget,
@@ -42,8 +37,13 @@ class Profiles extends Component {
             open: false,
         })
     }
+    returnLogin = () => {
+        if (this.props.history) {
+            this.props.history.push('/login')
+        }
+    }
     render() {
-
+        const { processLogout, isLoggedIn } = this.props;
         return (
             <Box>
                 <Tooltip title="Account settings">
@@ -57,8 +57,9 @@ class Profiles extends Component {
                     >
                         <Avatar
                             sx={{ width: 30, height: 30 }}
-                            alt='Jisoo'
-                            src='https://avatars.githubusercontent.com/u/121484216?v=4'
+                            alt='CQLA Lab'
+                            // style={{ backgroundImage: `url(${detailMember && detailMember.image ? detailMember.image : ''})` }}
+                            src='https://avatars.githubusercontent.com/u/134493391?v=4'
                         />
                     </IconButton>
                 </Tooltip>
@@ -80,10 +81,10 @@ class Profiles extends Component {
                         <Avatar sx={{ width: 28, height: 28, mr: 2 }} /> My account
                     </MenuItem>
                     <Divider />
-
                     <MenuItem >
                         <ListItemIcon>
-                            <Logout fontSize="small" />
+                            <LogoutIcon onClick={processLogout} sx={{ color: 'white', cursor: 'pointer' }} fontSize="small" />
+                            {isLoggedIn === false && this.returnLogin()}
                         </ListItemIcon>
                         Logout
                     </MenuItem>
@@ -103,10 +104,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        processLogout: () => dispatch(actions.processLogout()),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profiles);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profiles));
 
 
 

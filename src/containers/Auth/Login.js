@@ -33,10 +33,10 @@ class Login extends Component {
     handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
-        console.log({
-            email: data.get('email'),
-            password: data.get('password')
-        })
+        // console.log({
+        //     email: data.get('email'),
+        //     password: data.get('password')
+        // })
     }
     /*lệnh setState cập nhật biến thay đổi trạng thái của react */
     handleOnChangeUsername = (event) => {

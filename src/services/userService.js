@@ -28,6 +28,7 @@ export const getAllCodeService = (inputType) => {
 export const saveDetailMemberService = (data) => {
     return axios.post('/api/save-infor-members', data)
 }
+//project
 export const createNewProject = (data) => {
     return axios.post('/api/create-new-project', data)
 }
@@ -35,6 +36,28 @@ export const createNewProject = (data) => {
 export const getAllProjectService = () => {
     return axios.get('/api/get-all-project')
 }
+//project
 export const getDetailInforMember = (inputId) => {
     return axios.get(`/api/get-detail-member-by-id?id=${inputId}`)
 }
+//team
+export const createNewTeam = (data) => {
+    return axios.post('/api/create-new-team', data)
+}
+export const getAllTeamService = (inputId) => {
+    return axios.get(`/api/get-all-team?id=${inputId}`)
+}
+
+export const deleteTeam = (teamId) => {
+    return axios.delete('/api/delete-team'
+        , {
+            data: {
+                id: teamId
+            }
+        })
+}
+export const editTeam = (inputData) => {
+    return axios.put('/api/edit-team', inputData)
+}
+
+//team

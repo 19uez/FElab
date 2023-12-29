@@ -27,6 +27,9 @@ import Language from './Menus/Language';
 import { FormattedMessage } from 'react-intl';
 import imageHeader from '../../assets/header-background.jpg'
 import { withRouter } from 'react-router';
+import * as actions from '../../store/actions'
+import LogoutIcon from '@mui/icons-material/Logout';
+import ManageMemberInHeader from './Menus/ManageMemberInHeader';
 class HomeHeader extends Component {
     constructor(props) {
         super(props)
@@ -49,7 +52,18 @@ class HomeHeader extends Component {
             this.props.history.push('/home')
         }
     }
+    returnLogin = () => {
+        if (this.props.history) {
+            this.props.history.push('/login')
+        }
+    }
+    goToManage = () => {
+        if (this.props.history) {
+            this.props.history.push('/system/user-redux')
+        }
+    }
     render() {
+        const { processLogout, isLoggedIn, userInfo } = this.props;
         return (
 
             <React.Fragment>
@@ -94,6 +108,10 @@ class HomeHeader extends Component {
                             <MemberHeader />
                             <ProjectsHeader />
                             <CourseHeader />
+                            {
+                                userInfo && userInfo.role === 'admin' &&
+                                <ManageMemberInHeader />
+                            }
                         </Box>
                     </Box>
 
@@ -143,6 +161,8 @@ class HomeHeader extends Component {
                         </Tooltip>
 
                         <Profiles />
+                        <LogoutIcon onClick={processLogout} sx={{ color: 'white', cursor: 'pointer' }} />
+                        {isLoggedIn === false && this.returnLogin()}
                     </Box>
 
                 </Box >{
@@ -169,11 +189,13 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        processLogout: () => dispatch(actions.processLogout()),
     };
 };
 

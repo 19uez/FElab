@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
 
-import { getAllCodeService } from '../../../services/userService'
+// import { getAllCodeService } from '../../../services/userService'
 import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from '../../../utils'
 
 import './UserRedux.scss'
@@ -27,20 +27,6 @@ import {
     Unstable_Grid2 as Grid
 } from '@mui/material';
 
-const sexs = [
-    {
-        value: 'M',
-        label: 'Nam'
-    },
-    {
-        value: 'F',
-        label: 'Nữ'
-    },
-    {
-        value: 'O',
-        label: 'Khác'
-    },
-];
 const statusUser = [
     {
         value: '1',
@@ -76,9 +62,7 @@ class UserRedux extends Component {
             isActive: '',
             // showPassword: false,
 
-            genderArr: [],
-            roleArr: [],
-            positionArr: [],
+            // roleArr: [],
             previewImgURL: '',
             isOpen: false,
 
@@ -99,33 +83,12 @@ class UserRedux extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
     }
-    handleClickShowPassword = (event) => {
-        this.setState({
-            showPassword: !this.state.showPassword
-        })
-    }
 
-    // handleClickShowPassword = () => this.setShowPassword((show) => !show);
-
-    handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
 
     async componentDidMount() {
-        // try {
-        //     let res = await getAllCodeService('gender')
-        //     if (res && res.errCode === 0) {
-        //         this.setState({
-        //             genderArr: res.data
-        //         })
-        //     }
-        //     console.log('check res: ', res)
-        // } catch (e) {
-        //     console.log(e)
-        // }
-        this.props.getGenderStart();
-        this.props.getPositionStart()
-        this.props.getRoleStart()
+        // this.props.getGenderStart();
+        // this.props.getPositionStart()
+        // this.props.getRoleStart()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -145,9 +108,6 @@ class UserRedux extends Component {
             })
         }
         if (prevProps.listUsers !== this.props.listUsers) {
-            let arrGenders = this.props.genderRedux
-            let arrRoles = this.props.roleRedux
-            let arrPositions = this.props.positionRedux
             this.setState({
                 firstName: '',
                 lastName: '',
@@ -212,7 +172,6 @@ class UserRedux extends Component {
                 avatar: this.state.avatar,
             })
         }
-
     }
     checkValidateInput = () => {
         let isValid = true
@@ -246,17 +205,10 @@ class UserRedux extends Component {
         })
     }
     render() {
-        // console.log('check state: ', this.state)
-        let genders = this.state.genderArr;
-        let roles = this.state.roleArr
-        let positions = this.state.positionArr
-        let language = this.props.language;
-        let isLoadingGender = this.props.isLoadingGender
-        // console.log('check props from redux', this.props.genderRedux);
         return (
             < div className='user-redux-container' >
                 <div className="title" >
-                    Manage user with redux
+                    Manage Member
                 </div>
                 <div className='user-redux-body'>
                     <div className='container'>
@@ -273,8 +225,6 @@ class UserRedux extends Component {
                                     />
                                     <CardContent sx={{ pt: 0 }}>
                                         <Box sx={{ m: -1.5 }}>
-
-
                                             <Grid
                                                 container
                                                 spacing={3}
@@ -310,30 +260,6 @@ class UserRedux extends Component {
                                                         value={this.state.password}
                                                         disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
                                                     />
-
-
-                                                    {/* <FormControl fullWidth required sx={{}} variant="outlined" >
-                                                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                                        <OutlinedInput
-                                                            id="outlined-adornment-password"
-                                                            type={this.state.showPassword ? 'text' : 'password'}
-                                                            endAdornment={
-                                                                <InputAdornment position="end">
-                                                                    <IconButton
-                                                                        aria-label="toggle password visibility"
-                                                                        onClick={(event) => this.handleClickShowPassword(event)}
-                                                                        onMouseDown={(event) => this.handleMouseDownPassword(event)}
-                                                                        edge="end"
-                                                                    >
-                                                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                    </IconButton>
-                                                                </InputAdornment>
-                                                            }
-                                                            label="Password"
-                                                            onChange={(event) => this.handleChange(event)}
-                                                            value={this.state.password}
-                                                        />
-                                                    </FormControl> */}
                                                 </Grid>
                                                 {/*firstName*/}
                                                 <Grid
@@ -431,7 +357,7 @@ class UserRedux extends Component {
                                                     </TextField>
                                                 </Grid>
                                                 {/*gender*/}
-                                                <Grid
+                                                {/* <Grid
                                                     xs={12}
                                                     md={6}
                                                 >
@@ -454,58 +380,7 @@ class UserRedux extends Component {
                                                             </option>
                                                         ))}
                                                     </TextField>
-                                                </Grid>
-
-                                                {/* <Grid
-                                                    xs={12}
-                                                    md={6}
-                                                >
-                                                    <TextField
-                                                        fullWidth
-                                                        label="Positions"
-                                                        name="position"
-                                                        onChange={(event) => this.handleChange(event)}
-                                                        required
-                                                        select
-                                                        SelectProps={{ native: true }}
-                                                        value={positions}
-                                                    >
-                                                        {positions.map((option) => (
-                                                            <MenuItem key={option.value} value={option.value}>
-                                                                {option.label}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </TextField>
                                                 </Grid> */}
-
-
-                                                {/* <Grid
-                                                    xs={12}
-                                                    md={6}
-                                                >
-                                                    <Box
-                                                        sx={{ width: '20px' }}
-                                                    // fullWidth
-                                                    // label="Role"
-                                                    // name="role"
-                                                    // onChange={(event) => this.handleChange(event)}
-                                                    // required
-                                                    // select
-                                                    // SelectProps={{ native: true }}
-                                                    // value={this.state.sexs}
-                                                    >
-                                                        <select >
-                                                            {roles && roles.length > 0 &&
-                                                                roles.map((item, index) => {
-                                                                    return (
-                                                                        <option key={index}>{item.valueVi}</option>
-                                                                    )
-                                                                })
-                                                            }
-                                                        </select>
-                                                    </Box>
-                                                </Grid> */}
-
                                                 <Grid xs={12} md={2}>
                                                     <div>
                                                         <input
@@ -542,7 +417,7 @@ class UserRedux extends Component {
                                                 }
                                             }}
                                             onClick={() => this.handleSaveUser()}>
-                                            {this.state.action === CRUD_ACTIONS.EDIT ? 'Save details' : 'Edit user'}
+                                            {this.state.action === CRUD_ACTIONS.EDIT ? 'Save' : 'Save'}
                                             {/* Save details */}
                                         </Button>
                                     </CardActions>

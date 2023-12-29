@@ -8,9 +8,12 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select'
-import { getAllUser } from '../../../services/userService';
+// import { getAllUser } from '../../../services/userService';
 import { getDetailInforMember } from '../../../services/userService'
 import { CRUD_ACTIONS } from '../../../utils/constant';
+import {
+    Button
+} from '@mui/material';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -103,11 +106,11 @@ class ManagerUser extends Component {
             <React.Fragment>
                 <div className='manage-user-container'>
                     <div className='manage-user-title'>
-                        Tao them thong tin thanh vien
+                        Thêm thông tin chi tiết cho thành viên
                     </div>
                     <div className='more-infor'>
                         <div className='content-left form-group'>
-                            <label>Chon thanh vien</label>
+                            <label>Chọn thành viên</label>
                             <Select
                                 value={this.state.selectedOption}
                                 onChange={this.handleChangeSelect}
@@ -115,12 +118,12 @@ class ManagerUser extends Component {
                             />
                         </div>
                         <div className='content-right'>
-                            <label>Thong tin gioi thieu</label>
+                            <label>Giới thiệu</label>
                             <textarea className='form-control' rows='4'
                                 onChange={(event) => this.handleOnChangeDesc(event)}
                                 value={this.state.description}
                             >
-                                adsdadasdasd
+
                             </textarea>
                         </div>
                     </div>
@@ -131,11 +134,28 @@ class ManagerUser extends Component {
                             onChange={this.handleEditorChange}
                             value={this.state.contentMarkdown}
                         />
-                        <button onClick={() => this.handleSaveContentMarkdown()}
+                        {/* <button onClick={() => this.handleSaveContentMarkdown()}
                             className='save-content-user'
                         >
-                            Luu thong tin
-                        </button>
+                            Lưu thông tin
+                        </button> */}
+                        <Button variant="contained"
+                            sx={{
+                                mt: '15px',
+                                mb: '15px',
+                                borderRadius: '12px',
+                                textTransform: 'none',
+                                fontWeight: 'bold',
+                                bgcolor: 'rgb(99, 102, 241)',
+                                fontSize: '16px',
+                                '&:hover': {
+                                    bgcolor: '#3c40c6'
+                                },
+                            }}
+                            onClick={() => this.handleSaveContentMarkdown()}>
+                            Lưu thông tin
+                            {/* Save details */}
+                        </Button>
                     </div>
                 </div>
 

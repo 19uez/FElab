@@ -5,65 +5,120 @@ import './TableManageTeam.scss'
 import * as actions from '../../../store/actions'
 import { Box, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+// import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
+import _ from 'lodash';
 import Tooltip from '@mui/material/Tooltip'
-
+import { getAllTeamService, deleteTeam, editTeam } from '../../../services/userService';
 
 class TableManageTeam extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            usersRedux: []
+            name: '',
+            description: '',
+            isActive: '',
+            teamsLab: []
         }
     }
+    // async componentDidMount() {
+    //     await this.getAllTeamFormReact()
+    //     // let team = this.props.currentTeam
+    //     // if (team && !_.isEmpty(team)) {
+    //     //     this.setState({
+    //     //         id: team.id,
+    //     //         name: team.name,
+    //     //         description: team.description,
+    //     //         isActive: team.isActive,
+    //     //     })
+    //     // }
+    //     // console.log('didmount edit modal', this.props.currentTeam)
+
+    // }
     componentDidMount() {
-        this.props.fetchUserRedux()
+        this.props.fetchTeamRedux()
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.listUsers !== this.props.listUsers) {
+        if (prevProps.listTeams !== this.props.listTeams) {
             this.setState({
-                usersRedux: this.props.listUsers
+                teamsLab: this.props.listTeams
             })
         }
 
     }
-    handleDeleteUser = (user) => {
-        this.props.deleteAUserRedux(user.id)
+    // handleChange = (event) => {
+    //     this.setState((prevState) => ({
+    //         ...prevState,
+    //         [event.target.name]: event.target.value
+    //     }));
+
+    // }
+    // handleOnChangeAddTeam = (event, id) => {
+
+    //     let copyState = { ...this.state }
+    //     copyState[id] = event.target.value
+    //     this.setState({
+    //         ...copyState
+    //     })
+
+    // }
+    // getAllTeamFormReact = async () => {
+    //     let response = await getAllTeamService('All')
+    //     if (response && response.errCode === 0) {
+    //         //setState la ham bat dong bo
+    //         this.setState({
+    //             teamsLab: response.teams,
+    //         })
+    //     }
+    // }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     if (prevProps.teamsLab !== this.props.teamsLab) {
+    //         this.setState({
+    //             teamsLab: this.props.teamsLab
+    //         })
+    //     }
+
+    // }
+    // handleDeleteTeam = async (team) => {
+    //     try {
+    //         let res = await deleteTeam(team.id)
+    //         if (res && res.errCode === 0) {
+    //             await this.getAllTeamFormReact()
+    //         } else {
+    //             alert(res.errMessage)
+    //         }
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    handleDeleteTeam = (team) => {
+        this.props.deleteATeamRedux(team.id)
     }
-    handleEditUser = (user) => {
-        this.props.handleEditUserFromParentKey(user)
+    handleEditTeam = (team) => {
+        this.props.handleEditTeamFromParent(team)
     }
 
     render() {
-        let arrUsers = this.state.usersRedux
+        let teamsLab = this.state.teamsLab
         return (
             <React.Fragment>
                 <table id="TableManagerUser">
                     <tbody>
                         <tr>
-                            <th>Email</th>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Phone</th>
-                            <th>Role</th>
+                            <th>Name</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
 
-                        {arrUsers && arrUsers.length > 0 && arrUsers.map((item, index) => {
+                        {teamsLab && teamsLab.length > 0 && teamsLab.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{item.email}</td>
-                                    <td>{item.firstName}</td>
-                                    <td>{item.lastName}</td>
-                                    <td>{item.phone}</td>
-                                    <td>{item.role}</td>
+                                    <td>{item.name}</td>
                                     <td>{item.isActive}</td>
                                     <td>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                                            <Tooltip title='Edit this members' >
+                                            <Tooltip title='Edit this team' >
                                                 <EditIcon
                                                     sx={{
                                                         color: '#F79F1F',
@@ -72,11 +127,11 @@ class TableManageTeam extends Component {
                                                         cursor: 'pointer'
                                                     }}
                                                     onClick={() => {
-                                                        this.handleEditUser(item)
+                                                        this.handleEditTeam(item)
                                                     }}
                                                 />
                                             </Tooltip>
-                                            <Tooltip title='Delete this members' >
+                                            <Tooltip title='Delete this team' >
                                                 <DeleteIcon
                                                     sx={{
                                                         color: '#eb2f06',
@@ -85,7 +140,7 @@ class TableManageTeam extends Component {
                                                         cursor: 'pointer'
                                                     }}
                                                     onClick={() => {
-                                                        this.handleDeleteUser(item)
+                                                        this.handleDeleteTeam(item)
                                                     }}
 
                                                 />
@@ -108,14 +163,14 @@ class TableManageTeam extends Component {
 
 const mapStateToProps = state => {
     return {
-        listUsers: state.admin.users
+        listTeams: state.admin.teams
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        deleteAUserRedux: (id) => dispatch(actions.deleteAUser(id)),
+        fetchTeamRedux: () => dispatch(actions.fetchAllTeamsStart()),
+        deleteATeamRedux: (id) => dispatch(actions.deleteATeam(id)),
     };
 };
 

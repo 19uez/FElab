@@ -1,10 +1,14 @@
 import actionTypes from './actionTypes';
 import {
     getAllCodeService, creatNewUserService,
-    getAllUser, deleteUser, editUser, saveDetailMemberService
+    getAllUser, deleteUser, editUser, saveDetailMemberService,
+    getAllTeamService, deleteTeam, editTeam, createNewTeam
 } from '../../services/userService'
 import { toast } from 'react-toastify'
-import { dispatch } from '../../redux';
+// import { dispatch } from '../../redux';
+
+
+//Gender
 export const fetchGenderStart = () => {
     // type: actionTypes.FETCH_GENDER_START,
     return async (dispacth, getState) => {
@@ -31,22 +35,9 @@ export const fetchGenderSuccess = (genderData) => ({
 export const fetchGenderFailed = () => ({
     type: actionTypes.FETCH_GENDER_FAILED
 })
+//Gender
 
-export const fetchPositionSuccess = (positionData) => ({
-    type: actionTypes.FETCH_POSITION_SUCCESS,
-    data: positionData
-})
-export const fetchPositionFailed = () => ({
-    type: actionTypes.FETCH_POSITION_FAILED
-})
-
-export const fetchRoleSuccess = (roleData) => ({
-    type: actionTypes.FETCH_ROLE_SUCCESS,
-    data: roleData
-})
-export const fetchRoleFailed = () => ({
-    type: actionTypes.FETCH_ROLE_FAILED
-})
+//Position
 export const fetchPositionStart = () => {
     return async (dispacth, getState) => {
         try {
@@ -63,6 +54,16 @@ export const fetchPositionStart = () => {
         }
     }
 }
+export const fetchPositionSuccess = (positionData) => ({
+    type: actionTypes.FETCH_POSITION_SUCCESS,
+    data: positionData
+})
+export const fetchPositionFailed = () => ({
+    type: actionTypes.FETCH_POSITION_FAILED
+})
+//Position
+
+//Role
 export const fetchRoleStart = () => {
     return async (dispacth, getState) => {
         try {
@@ -79,8 +80,17 @@ export const fetchRoleStart = () => {
         }
     }
 }
+export const fetchRoleSuccess = (roleData) => ({
+    type: actionTypes.FETCH_ROLE_SUCCESS,
+    data: roleData
+})
+export const fetchRoleFailed = () => ({
+    type: actionTypes.FETCH_ROLE_FAILED
+})
 
+//Role
 
+//User
 export const createNewUser = (data) => {
     return async (dispacth, getState) => {
         try {
@@ -100,14 +110,6 @@ export const createNewUser = (data) => {
         }
     }
 }
-
-export const saveUserFailed = () => ({
-    type: actionTypes.CREATE_USER_FAILED
-})
-export const saveUserSuccess = () => ({
-    type: actionTypes.CREATE_USER_SUCCESS
-})
-
 export const fetchAllUsersStart = () => {
     return async (dispatch, getState) => {
         try {
@@ -126,6 +128,12 @@ export const fetchAllUsersStart = () => {
         }
     }
 }
+export const saveUserFailed = () => ({
+    type: actionTypes.CREATE_USER_FAILED
+})
+export const saveUserSuccess = () => ({
+    type: actionTypes.CREATE_USER_SUCCESS
+})
 export const fetchAllUsersSuccess = (data) => ({
     type: actionTypes.FETCH_ALL_USER_SUCCESS,
     users: data
@@ -159,6 +167,7 @@ export const deleteUserSuccess = (data) => ({
 export const deleteUserFailed = () => ({
     type: actionTypes.DELETE_USER_FAILED,
 })
+
 export const editAUser = (data) => {
     return async (dispatch, getState) => {
         try {
@@ -186,8 +195,7 @@ export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED,
 })
 
-
-
+//Member
 export const saveDetailMember = (data) => {
     return async (dispatch, getState) => {
         try {
@@ -207,3 +215,114 @@ export const saveDetailMember = (data) => {
         }
     }
 }
+//Member
+//User
+
+//Team
+export const createNewTeamRedux = (data) => {
+    return async (dispacth, getState) => {
+        try {
+
+            let res = await createNewTeam(data)
+
+            if (res && res.errCode === 0) {
+                toast.success('Creat a new team success')
+                dispacth(saveTeamSuccess())
+                dispacth(fetchAllTeamsStart())
+            } else {
+                dispacth(saveTeamFailed())
+            }
+        } catch (e) {
+            dispacth(saveTeamFailed())
+            console.log('fetchTeamFailed error ', e)
+        }
+    }
+}
+
+export const saveTeamFailed = () => ({
+    type: actionTypes.CREATE_TEAM_FAILED
+})
+export const saveTeamSuccess = () => ({
+    type: actionTypes.CREATE_TEAM_SUCCESS
+})
+
+export const fetchAllTeamsStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllTeamService('All')
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllTeamsSuccess(res.teams.reverse()))
+            } else {
+                toast.error('fetch all team error!')
+                dispatch(fetchAllTeamsFailed())
+            }
+
+        } catch (e) {
+            toast.error('Fetch all team error!')
+            dispatch(fetchAllTeamsFailed())
+            console.log('fetchAllTeamsSuccess error', e)
+        }
+    }
+}
+export const fetchAllTeamsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_TEAM_SUCCESS,
+    teams: data
+})
+export const fetchAllTeamsFailed = () => ({
+    type: actionTypes.FETCH_ALL_TEAM_FAILED,
+})
+
+export const deleteATeam = (teamId) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await deleteTeam(teamId)
+            if (res && res.errCode === 0) {
+                toast.success('Delete a team success')
+                dispatch(deleteTeamSuccess())
+                dispatch(fetchAllTeamsStart())
+            } else {
+                toast.error('Delete all team error!')
+                dispatch(deleteTeamFailed())
+
+            }
+        } catch (e) {
+            toast.error('Delete all team error!')
+            dispatch(deleteTeamFailed())
+            console.log('Delete team failed', e)
+        }
+    }
+}
+export const deleteTeamSuccess = (data) => ({
+    type: actionTypes.DELETE_TEAM_SUCCESS,
+})
+export const deleteTeamFailed = () => ({
+    type: actionTypes.DELETE_TEAM_FAILED,
+})
+
+export const editATeam = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await editTeam(data)
+            if (res && res.errCode === 0) {
+                toast.success('Edit a team success')
+                dispatch(editTeamSuccess())
+                dispatch(fetchAllTeamsStart())
+            } else {
+                toast.error('Edit all team error!')
+                dispatch(editTeamFailed())
+
+            }
+        } catch (e) {
+            toast.error('Edit all team error!')
+            dispatch(editTeamFailed())
+            console.log('Edit team failed', e)
+        }
+    }
+}
+export const editTeamSuccess = (data) => ({
+    type: actionTypes.EDIT_TEAM_SUCCESS,
+})
+export const editTeamFailed = () => ({
+    type: actionTypes.EDIT_TEAM_FAILED,
+})
+

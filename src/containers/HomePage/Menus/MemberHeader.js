@@ -13,7 +13,7 @@ import Check from '@mui/icons-material/Check'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-
+import { withRouter } from 'react-router';
 class MemberHeader extends Component {
     constructor(props) {
         super(props)
@@ -23,7 +23,6 @@ class MemberHeader extends Component {
         }
 
     }
-
 
     handleClick = (event) => {
         this.setState({
@@ -61,6 +60,7 @@ class MemberHeader extends Component {
                     }}
                 >
                     <MenuItem>
+
                         <ListItemText inset>Single</ListItemText>
                     </MenuItem>
                     <MenuItem>
@@ -104,4 +104,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MemberHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MemberHeader));

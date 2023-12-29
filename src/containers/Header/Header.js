@@ -10,7 +10,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
+
+import AppsIcon from '@mui/icons-material/Apps'
 import { USER_ROLE } from '../../utils';
+import { withRouter } from 'react-router';
 class Header extends Component {
     constructor(props) {
         super(props)
@@ -34,22 +37,28 @@ class Header extends Component {
             menuApp: menu
         })
     }
+    returnHome = () => {
+        if (this.props.history) {
+            this.props.history.push('/home')
+        }
+    }
     render() {
         const { processLogout, userInfo } = this.props;
 
         return (
             <div className="header-container">
-
                 <div className="header-tabs-container">
                     <Navigator menus={this.state.menuApp} />
                 </div>
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ paddingTop: '10px', display: 'flex' }}>
+                        <AppsIcon onClick={() => this.returnHome()} sx={{ color: 'white', cursor: 'pointer', mr: '10px', alignItems: "flex-end" }} />
                         <Typography sx={{ mr: '10px' }}>
-                            <FormattedMessage id="homeheader.welcome" />, {userInfo && userInfo.firstName ? userInfo.firstName : ''} !
+                            <FormattedMessage id="homeheader.welcome" />, {userInfo && userInfo.lastName ? userInfo.lastName : ''} !
                         </Typography>
                         <Language />
                     </Box>
+
                     <div className="btn btn-logout" onClick={processLogout} title='Log out'>
                         <i className="fas fa-sign-out-alt"></i>
                     </div>
@@ -73,4 +82,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

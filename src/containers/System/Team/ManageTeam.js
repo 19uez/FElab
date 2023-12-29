@@ -1,35 +1,65 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Redirect, Route, Switch } from 'react-router-dom';
+// import { Redirect, Route, Switch } from 'react-router-dom';
 import './ManageTeam.scss'
-import { CommonUtils } from '../../../utils'
-import { createNewProject } from '../../../services/userService'
 import { toast } from 'react-toastify'
-
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
+import * as actions from '../../../store/actions'
 
 import TableManageTeam from './TableManageTeam';
+import { CRUD_ACTIONS } from '../../../utils'
+import {
+    Box,
+    TextField,
+} from '@mui/material';
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
+const statusTeam = [
+    {
+        value: '1',
+        label: 'Active'
+    },
+    {
+        value: '0',
+        label: 'No Active'
+    },
+];
 
 class ManageTeam extends Component {
     constructor(props) {
         super(props)
         this.state = {
             name: '',
-            descriptionHTML: '',
-            descriptionMarkdown: '',
-            imageBase64: '',
+            description: '',
+            isActive: '',
+            action: '',
+            teamEditId: '',
+
         }
     }
     async componentDidMount() {
 
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.listTeams !== this.props.listTeams) {
+            this.setState({
+                name: '',
+                description: '',
+                isActive: '',
+                action: CRUD_ACTIONS.CREATE,
+            })
+        }
+    }
+    checkValidateInput = () => {
+        let isValid = true
+        let arrCheck = ['name', 'description', 'isActive']
+        for (let i = 0; i < arrCheck.length; i++) {
+            if (!this.state[arrCheck[i]]) {
+                isValid = false
+                alert('This input is required: ' + arrCheck[i])
+                break;
+            }
+        }
+        return isValid
     }
     handleOnChangeInput = (event, id) => {
         let stateCopy = { ...this.state }
@@ -38,40 +68,66 @@ class ManageTeam extends Component {
             ...stateCopy
         })
     }
-
-    handleOnChangeImage = async (event) => {
-        let data = event.target.files
-        let file = data[0]
-        if (file) {
-            let base64 = await CommonUtils.getBase64(file)
-            this.setState({
-                imageBase64: base64
+    // handleSaveNewTeam = () => {
+    //     let res = createNewTeam(this.state)
+    //     if (res && res.errCode === 0) {
+    //         toast.success('Add a new team success!')
+    //         this.setState({
+    //             name: '',
+    //             description: '',
+    //             isActive: '',
+    //         })
+    //     } else {
+    //         toast.error('Something wrongs ...')
+    //         console.log('>> An check res: ', res)
+    //     }
+    // }
+    handleSaveTeam = () => {
+        let isValid = this.checkValidateInput()
+        if (isValid === false) return;
+        let { action } = this.state
+        //fire redux action
+        if (action === CRUD_ACTIONS.CREATE) {
+            this.props.createNewTeam({
+                name: this.state.name,
+                description: this.state.description,
+                isActive: this.state.isActive,
+            })
+        }
+        if (action === CRUD_ACTIONS.EDIT) {
+            this.props.editATeamRedux({
+                id: this.state.teamEditId,
+                name: this.state.name,
+                description: this.state.description,
+                isActive: this.state.isActive,
             })
         }
     }
-    handleSaveNewProject = async () => {
-        // console.log('An check state: ', this.state)
-        let res = await createNewProject(this.state)
-        if (res && res.errCode === 0) {
-            toast.success('Add a new team success!')
-            this.setState({
-                name: '',
-                descriptionHTML: '',
-                descriptionMarkdown: '',
-                imageBase64: '',
-            })
-        } else {
-            toast.error('Something wrongs ...')
-            console.log('>> An check res: ', res)
-        }
-    }
-    handleEditorChange = ({ html, text }) => {
+    // handleSaveEditNewTeam = async () => {
+    //     let res = await editTeam(this.state)
+    //     if (res && res.errCode === 0) {
+    //         toast.success('Edit a new team success!')
+    //         this.setState({
+    //             name: '',
+    //             description: '',
+    //             isActive: '',
+    //         })
+    //     } else {
+    //         toast.error('Something wrongs ...')
+    //         console.log('>> An check res: ', res)
+    //     }
+    // }
+    handleEditTeamFromParent = (team) => {
         this.setState({
-            descriptionHTML: html,
-            descriptionMarkdown: text,
+            teamEditId: team.id,
+            name: team.name,
+            description: team.description,
+            action: CRUD_ACTIONS.EDIT,
+            isActive: team.isActive,
         })
     }
     render() {
+        console.log('check state', this.state)
         return (
             <div className='manage-team-container'>
                 <div className='mp-title'>Quản lý nhóm</div>
@@ -82,25 +138,52 @@ class ManageTeam extends Component {
                         <input className='form-control' type='text' value={this.state.name}
                             onChange={(event) => this.handleOnChangeInput(event, 'name')}></input>
                     </div>
-                    <div className='col-6 form-group'>
-                        <label>Ảnh nhóm</label>
-                        <input className='form-control' type='file'
-                            onChange={(event) => this.handleOnChangeImage(event)}></input>
-                    </div>
+                    {/* <div className='col-6 form-group'>
+                        <label>Trạng thái hoạt động</label>
+                        <input className='form-control' type='text' value={this.state.isActive}
+                            onChange={(event) => this.handleOnChangeInput(event, 'isActive')}></input>
+                    </div> */}
+                    <Box sx={{ marginY: '10px', maxWidth: '50%' }}>
+                        <TextField
+                            fullWidth
+                            label="Status"
+                            name="isActive"
+                            onChange={(event) => this.handleOnChangeInput(event, "isActive")}
+                            required
+                            defaultValue='1'
+                            select
+                            SelectProps={{ native: true }}
+                            value={this.state.statusTeam}
+                        >
+                            {statusTeam.map((option) => (
+                                <option
+                                    key={option.value}
+                                    value={option.value}
+                                >
+                                    {option.label}
+                                </option>
+                            ))}
+                        </TextField>
+                    </Box>
                     <div className="col-12">
-                        <MdEditor
-                            style={{ height: '300px', paddingTop: '15px' }}
-                            renderHTML={text => mdParser.render(text)}
-                            onChange={this.handleEditorChange}
-                            value={this.state.descriptionMarkdown}
-                        />
+                        <label>Thông tin nhóm</label>
+                        <input className='form-control' type='text' value={this.state.description}
+                            onChange={(event) => this.handleOnChangeInput(event, 'description')}></input>
+
                     </div>
-                    <TableManageTeam />
+                    <Box sx={{ marginY: '10px' }}>
+                        <TableManageTeam handleEditTeamFromParent={this.handleEditTeamFromParent} />
+                    </Box>
                     <div className='col-12'>
                         <button className='btn-save-team'
-                            onClick={() => this.handleSaveNewProject()}
+                            onClick={() => this.handleSaveTeam()}
                         >Save</button>
                     </div>
+                    {/* <div className='col-12'>
+                        <button className='btn-save-team'
+                            onClick={() => this.handleSaveEditNewTeam()}
+                        >Edit</button>
+                    </div> */}
                 </div>
 
 
@@ -112,11 +195,15 @@ class ManageTeam extends Component {
 
 const mapStateToProps = state => {
     return {
+        listTeams: state.admin.teams
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        createNewTeam: (data) => dispatch(actions.createNewTeamRedux(data)),
+        fetchTeamRedux: () => dispatch(actions.fetchAllTeamsStart()),
+        editATeamRedux: (data) => dispatch(actions.editATeam(data)),
     };
 };
 

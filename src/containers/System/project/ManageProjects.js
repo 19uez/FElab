@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { Redirect, Route, Switch } from 'react-router-dom';
+// import { Redirect, Route, Switch } from 'react-router-dom';
 import './ManageProjects.scss'
 import { CommonUtils } from '../../../utils'
 import { createNewProject } from '../../../services/userService'

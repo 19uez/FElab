@@ -4,16 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
 
-
-import Divider from '@mui/material/Divider'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Check from '@mui/icons-material/Check'
-
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 class CourseHeader extends Component {
     constructor(props) {

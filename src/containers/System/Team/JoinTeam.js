@@ -1,15 +1,16 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './TableManageProject.scss'
+import './TableManageTeam.scss'
 import * as actions from '../../../store/actions'
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip'
 
 
-class TableManageProject extends Component {
+class TableManageTeam extends Component {
 
     constructor(props) {
         super(props)
@@ -118,6 +119,6 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageProject);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageTeam);
 
 
