@@ -10,8 +10,7 @@ class CourseHeader extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            anchorEl: null,
-            open: false,
+
         }
 
     }
@@ -19,14 +18,12 @@ class CourseHeader extends Component {
 
     handleClick = (event) => {
         this.setState({
-            anchorEl: event.currentTarget,
-            open: true,
+
         })
     }
     handleClose = () => {
         this.setState({
-            anchorEl: null,
-            open: false,
+
         })
     }
     render() {
@@ -38,7 +35,6 @@ class CourseHeader extends Component {
                     aria-controls={this.state.open ? 'basic-menu-templates' : undefined}
                     aria-haspopup="true"
                     aria-expanded={this.state.open ? 'true' : undefined}
-                    onClick={(event) => this.handleClick(event)}
                 >
                     Course
                 </Button>

@@ -141,8 +141,8 @@ class ManagerUser extends Component {
                         </button> */}
                         <Button variant="contained"
                             sx={{
-                                mt: '15px',
-                                mb: '15px',
+                                mt: '10px',
+                                mb: '10px',
                                 borderRadius: '12px',
                                 textTransform: 'none',
                                 fontWeight: 'bold',

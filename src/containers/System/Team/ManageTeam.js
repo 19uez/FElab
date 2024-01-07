@@ -10,6 +10,7 @@ import { CRUD_ACTIONS } from '../../../utils'
 import {
     Box,
     TextField,
+    Button,
 } from '@mui/material';
 
 const statusTeam = [
@@ -174,16 +175,29 @@ class ManageTeam extends Component {
                     <Box sx={{ marginY: '10px' }}>
                         <TableManageTeam handleEditTeamFromParent={this.handleEditTeamFromParent} />
                     </Box>
-                    <div className='col-12'>
+                    {/* <div className='col-12'>
                         <button className='btn-save-team'
                             onClick={() => this.handleSaveTeam()}
                         >Save</button>
-                    </div>
-                    {/* <div className='col-12'>
-                        <button className='btn-save-team'
-                            onClick={() => this.handleSaveEditNewTeam()}
-                        >Edit</button>
                     </div> */}
+                    <Button variant="contained"
+                        sx={{
+                            mt: '15px',
+                            mb: '15px',
+                            borderRadius: '12px',
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            bgcolor: 'rgb(99, 102, 241)',
+                            fontSize: '16px',
+                            '&:hover': {
+                                bgcolor: '#3c40c6'
+                            },
+                            maxWidth: '50px',
+                        }}
+                        onClick={() => this.handleSaveTeam()}>
+                        Save
+                        {/* Save details */}
+                    </Button>
                 </div>
 
 

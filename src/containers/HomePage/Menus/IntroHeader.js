@@ -11,8 +11,7 @@ class IntroHeader extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            anchorEl: null,
-            open: false,
+
         }
 
     }
@@ -20,14 +19,12 @@ class IntroHeader extends Component {
 
     handleClick = (event) => {
         this.setState({
-            anchorEl: event.currentTarget,
-            open: true,
+
         })
     }
     handleClose = () => {
         this.setState({
-            anchorEl: null,
-            open: false,
+
         })
     }
     toIntroduce = () => {

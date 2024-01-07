@@ -24,9 +24,14 @@ export const adminMenu = [
         ]
     },
     { //Quản lý projects
-        name: 'menu.admin.project', menus: [
+        name: 'menu.admin.project',
+        menus: [
             {
                 name: 'menu.admin.manage-project', link: '/system/manage-project'
+
+            },
+            {
+                name: 'menu.admin.join-project', link: '/system/join-project'
 
             },
         ]
@@ -35,6 +40,10 @@ export const adminMenu = [
         name: 'menu.admin.team', menus: [
             {
                 name: 'menu.admin.manage-team', link: '/system/manage-team'
+
+            },
+            {
+                name: 'menu.admin.join-team', link: '/system/join-team'
 
             },
         ]

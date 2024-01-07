@@ -1,0 +1,27 @@
+.manage-user-container {
+    padding: 5px;
+
+    .manage-user-title {
+        text-align: center;
+        margin: 15px 0;
+        font-size: 25px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #2980b9;
+    }
+
+
+    .more-infor {
+        display: flex;
+        gap: 15px;
+        padding-bottom: 15px;
+
+        .content-left {
+            width: 40%;
+        }
+
+        .content-right {
+            width: 60%;
+        }
+    }
+}

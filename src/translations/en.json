@@ -27,7 +27,9 @@
             "project": "Projects",
             "schedule": "Meeting Schedule",
             "team": "Team",
-            "manage-team": "Manage Team"
+            "manage-team": "Manage Team",
+            "join-team": "Join Team",
+            "join-project": "Join Project"
         }
     }
 }

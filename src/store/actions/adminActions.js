@@ -2,7 +2,10 @@ import actionTypes from './actionTypes';
 import {
     getAllCodeService, creatNewUserService,
     getAllUser, deleteUser, editUser, saveDetailMemberService,
-    getAllTeamService, deleteTeam, editTeam, createNewTeam
+    getAllTeamService, deleteTeam, editTeam, createNewTeam,
+    addUserOnTeam,
+    getAllProjectService, deleteProject,
+    createNewProjectService, editProject, saveDetailProjectService
 } from '../../services/userService'
 import { toast } from 'react-toastify'
 // import { dispatch } from '../../redux';
@@ -150,12 +153,12 @@ export const deleteAUser = (userId) => {
                 dispatch(deleteUserSuccess())
                 dispatch(fetchAllUsersStart())
             } else {
-                toast.error('Delete all user error!')
+                toast.error('Delete user error!')
                 dispatch(deleteUserFailed())
 
             }
         } catch (e) {
-            toast.error('Delete all user error!')
+            toast.error('Delete user error!')
             dispatch(deleteUserFailed())
             console.log('Delete user failed', e)
         }
@@ -210,8 +213,27 @@ export const saveDetailMember = (data) => {
 
         } catch (e) {
             toast.error('Save infor member error!')
-            dispatch({ type: actionTypes.dispatch({ type: actionTypes.SAVE_DETAIL_MEMBER_SUCCESS }) })
-            console.log('SAVE_DETAIL_MEMBER_SUCCESS error', e)
+            dispatch({ type: actionTypes.dispatch({ type: actionTypes.SAVE_DETAIL_MEMBER_FAILED }) })
+            console.log('SAVE_DETAIL_MEMBER_FAILED error', e)
+        }
+    }
+}
+export const saveUserOnTeam = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await addUserOnTeam(data)
+            if (res && res.errCode === 0) {
+                toast.success('Save infor member success')
+                dispatch({ type: actionTypes.ADD_USER_ON_TEAM_SUCCESS })
+            } else {
+                toast.error('Save infor member error!')
+                dispatch({ type: actionTypes.dispatch({ type: actionTypes.ADD_USER_ON_TEAM_SUCCESS }) })
+            }
+
+        } catch (e) {
+            toast.error('Save infor member error!')
+            dispatch({ type: actionTypes.dispatch({ type: actionTypes.ADD_USER_ON_TEAM_FAILED }) })
+            console.log('ADD_USER_ON_TEAM_FAILED error', e)
         }
     }
 }
@@ -326,3 +348,144 @@ export const editTeamFailed = () => ({
     type: actionTypes.EDIT_TEAM_FAILED,
 })
 
+//Team
+
+//Project
+
+export const createNewProject = (data) => {
+    return async (dispacth, getState) => {
+        try {
+
+            let res = await createNewProjectService(data)
+
+            if (res && res.errCode === 0) {
+                toast.success('Creat a new project success')
+                dispacth(saveProjectSuccess())
+                dispacth(fetchAllProjectsStart())
+            } else {
+                dispacth(saveProjectFailed())
+            }
+        } catch (e) {
+            dispacth(saveProjectFailed())
+            console.log('fetchRoleFailed error ', e)
+        }
+    }
+}
+export const saveProjectFailed = () => ({
+    type: actionTypes.CREATE_PROJECT_FAILED
+})
+export const saveProjectSuccess = () => ({
+    type: actionTypes.CREATE_PROJECT_SUCCESS
+})
+export const fetchAllProjectsStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllProjectService()
+
+            if (res && res.errCode === 0) {
+
+                dispatch(fetchAllProjectsSuccess(res.data.reverse()))
+
+            } else {
+                toast.error('fetch all project error!')
+                dispatch(fetchAllProjectsFailed())
+            }
+
+        } catch (e) {
+            toast.error('Fetch all project error!')
+            dispatch(fetchAllProjectsFailed())
+            console.log('fetchAllProjectFailed error', e)
+        }
+    }
+}
+
+export const fetchAllProjectsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_PROJECT_SUCCESS,
+    projects: data
+})
+export const fetchAllProjectsFailed = () => ({
+    type: actionTypes.FETCH_ALL_PROJECT_FAILED,
+})
+
+export const fetchRequiredProjectInforSuccess = (data) => ({
+    type: actionTypes.FETCH_REQUIRED_PROJECT_INFOR_SUCCESS,
+    users: data
+})
+export const fetchRequiredProjectInforFailed = (data) => ({
+    type: actionTypes.FETCH_REQUIRED_PROJECT_INFOR_FAILED,
+    users: data
+})
+export const deleteAProject = (projectId) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await deleteProject(projectId)
+            console.log(res);
+            if (res && res.errCode === 0) {
+                toast.success('Delete a project success')
+                console.log('123');
+                dispatch(deleteProjectSuccess())
+                dispatch(fetchAllProjectsStart())
+            } else {
+                toast.error('Delete all project error!')
+                dispatch(deleteProjectFailed())
+
+            }
+        } catch (e) {
+            toast.error('Delete all project error!')
+            dispatch(deleteProjectFailed())
+            console.log('Delete project failed', e)
+        }
+    }
+}
+export const deleteProjectSuccess = (data) => ({
+    type: actionTypes.DELETE_PROJECT_SUCCESS,
+})
+export const deleteProjectFailed = () => ({
+    type: actionTypes.DELETE_PROJECT_FAILED,
+})
+export const editAProject = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await editProject(data)
+            if (res && res.errCode === 0) {
+                toast.success('Edit a project success')
+                dispatch(editProjectSuccess())
+                dispatch(fetchAllProjectsStart())
+            } else {
+                toast.error('Edit all project error!')
+                dispatch(editProjectFailed())
+
+            }
+        } catch (e) {
+            toast.error('Edit all project error!')
+            dispatch(editProjectFailed())
+            console.log('Edit project failed', e)
+        }
+    }
+}
+export const editProjectSuccess = (data) => ({
+    type: actionTypes.EDIT_PROJECT_SUCCESS,
+})
+export const editProjectFailed = () => ({
+    type: actionTypes.EDIT_PROJECT_FAILED,
+})
+export const saveDetailProject = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await saveDetailProjectService(data)
+            if (res && res.errCode === 0) {
+                toast.success('Save infor project success')
+                dispatch({ type: actionTypes.SAVE_DETAIL_PROJECT_SUCCESS })
+            } else {
+                toast.error('Save infor project error!')
+                dispatch({ type: actionTypes.dispatch({ type: actionTypes.SAVE_DETAIL_PROJECT_SUCCESS }) })
+            }
+
+        } catch (e) {
+            toast.error('Save infor project error!')
+            dispatch({ type: actionTypes.dispatch({ type: actionTypes.SAVE_DETAIL_PROJECT_SUCCESS }) })
+            console.log('SAVE_DETAIL_PROJECT_SUCCESS error', e)
+        }
+    }
+}
+//Project

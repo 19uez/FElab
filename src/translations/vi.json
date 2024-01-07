@@ -27,7 +27,9 @@
             "project": "Dự án",
             "schedule": "Quản lý lịch họp",
             "team": "Nhóm",
-            "manage-team": "Quản lý nhóm"
+            "manage-team": "Quản lý nhóm",
+            "join-team": "Thêm vào nhóm",
+            "join-project": "Thêm vào dự án"
         }
     }
 }

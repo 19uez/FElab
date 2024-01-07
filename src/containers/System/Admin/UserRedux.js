@@ -58,11 +58,7 @@ class UserRedux extends Component {
             password: '',
             role: '',
             phone: '',
-            sex: '',
             isActive: '',
-            // showPassword: false,
-
-            // roleArr: [],
             previewImgURL: '',
             isOpen: false,
 
@@ -71,12 +67,19 @@ class UserRedux extends Component {
         }
 
     }
-    handleChange = (event) => {
-        this.setState((prevState) => ({
-            ...prevState,
-            [event.target.name]: event.target.value
-        }));
+    // handleChange = (event) => {
+    //     this.setState((prevState) => ({
+    //         ...prevState,
+    //         [event.target.name]: event.target.value
+    //     }));
 
+    // }
+    handleChange = (event, id) => {
+        let stateCopy = { ...this.state }
+        stateCopy[id] = event.target.value
+        this.setState({
+            ...stateCopy
+        })
     }
 
 
@@ -86,27 +89,9 @@ class UserRedux extends Component {
 
 
     async componentDidMount() {
-        // this.props.getGenderStart();
-        // this.props.getPositionStart()
-        // this.props.getRoleStart()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.genderRedux !== this.props.genderRedux) {
-            this.setState({
-                genderArr: this.props.genderRedux
-            })
-        }
-        if (prevProps.roleRedux !== this.props.roleRedux) {
-            this.setState({
-                roleArr: this.props.roleRedux
-            })
-        }
-        if (prevProps.positionRedux !== this.props.positionRedux) {
-            this.setState({
-                positionArr: this.props.positionRedux
-            })
-        }
         if (prevProps.listUsers !== this.props.listUsers) {
             this.setState({
                 firstName: '',
@@ -238,7 +223,7 @@ class UserRedux extends Component {
                                                         fullWidth
                                                         label="Email Address"
                                                         name="email"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'email')}
                                                         required
                                                         value={this.state.email}
                                                         disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
@@ -253,7 +238,7 @@ class UserRedux extends Component {
                                                         fullWidth
                                                         label="Password"
                                                         name="password"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'password')}
                                                         type="password"
                                                         autoComplete="current-password"
                                                         required
@@ -271,7 +256,7 @@ class UserRedux extends Component {
                                                         // helperText="Please specify the first name"
                                                         label="First name"
                                                         name="firstName"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'firstName')}
                                                         required
                                                         value={this.state.firstName}
                                                     />
@@ -285,7 +270,7 @@ class UserRedux extends Component {
                                                         fullWidth
                                                         label="Last name"
                                                         name="lastName"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'lastName')}
                                                         required
                                                         value={this.state.lastName}
                                                     />
@@ -299,7 +284,7 @@ class UserRedux extends Component {
                                                         fullWidth
                                                         label="Phone Number"
                                                         name="phone"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'phone')}
                                                         type="text"
                                                         value={this.state.phone}
                                                     />
@@ -313,7 +298,7 @@ class UserRedux extends Component {
                                                         fullWidth
                                                         label="Role"
                                                         name="role"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'role')}
                                                         required
                                                         defaultValue='R1'
                                                         select
@@ -339,7 +324,7 @@ class UserRedux extends Component {
                                                         fullWidth
                                                         label="Status"
                                                         name="isActive"
-                                                        onChange={(event) => this.handleChange(event)}
+                                                        onChange={(event) => this.handleChange(event, 'isActive')}
                                                         required
                                                         defaultValue='1'
                                                         select

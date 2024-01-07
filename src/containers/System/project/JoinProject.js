@@ -1,60 +1,63 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './JoinTeam.scss'
+import './JoinProject.scss'
 import * as actions from '../../../store/actions';
+
+import MarkdownIt from 'markdown-it';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select'
 // import { getAllUser } from '../../../services/userService';
-import { getDetailInforMember, getDetailInforTeam, addUserOnTeam } from '../../../services/userService'
+import { getDetailInforMember } from '../../../services/userService'
 import { CRUD_ACTIONS } from '../../../utils/constant';
 import {
     Button
 } from '@mui/material';
-import { getAllTeamService } from '../../../services/userService';
 
+const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-class JoinTeam extends Component {
+class JoinProject extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            selectedOptionTeam: '',
-            selectedOptionMember: '',
+
+            selectedOption: '',
+            description: '',
             listMembers: [],
-            listTeams: [],
             hasOldData: false
         }
     }
     componentDidMount() {
-        this.props.fetchTeamRedux()
         this.props.fetchUserRedux()
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if ((prevProps.listUsers !== this.props.listUsers) && (prevProps.listTeams !== this.props.listTeams)) {
-            let dataSelectMember = this.buildDataInputSelectMember(this.props.listUsers)
-            let dataSelectTeam = this.buildDataInputSelectTeam(this.props.listTeams)
+        if (prevProps.listUsers !== this.props.listUsers) {
+            let dataSelect = this.buildDataInputSelect(this.props.listUsers)
             this.setState({
-                listMembers: dataSelectMember,
-                listTeams: dataSelectTeam
+                listMembers: dataSelect
             })
         }
     }
 
-    handleSaveUserOnTeam = () => {
+    handleSaveContentMarkdown = () => {
         let { hasOldData } = this.state
-        this.props.saveUserOnTeam({
+        this.props.saveDetailMember({
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+            description: this.state.description,
             action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
-            teamId: this.state.selectedOptionTeam.value,
-            userId: this.state.selectedOptionMember.value,
+
+            userId: this.state.selectedOption.value,
+
         })
         // console.log('check state: ', this.state)
     }
-    handleChangeSelectTeam = async (selectedOptionTeam) => {
+    handleChangeSelect = async (selectedOption) => {
 
-        this.setState({ selectedOptionTeam })
-        let res = await getDetailInforTeam(selectedOptionTeam.value)
-        if (res && res.errCode === 0 && res.data) {
+        this.setState({ selectedOption })
+        let res = await getDetailInforMember(selectedOption.value)
+        if (res && res.errCode === 0 && res.data && res.data.Markdown) {
             this.setState({
                 hasOldData: true
             })
@@ -65,39 +68,15 @@ class JoinTeam extends Component {
         }
         console.log('selected option: ', res)
     }
-    handleChangeSelectMember = async (selectedOptionMember) => {
-
-        this.setState({ selectedOptionMember })
-        let res = await getDetailInforMember(selectedOptionMember.value)
-        if (res && res.errCode === 0 && res.data) {
-            this.setState({
-                hasOldData: true
-            })
-        } else {
-            this.setState({
-                hasOldData: false
-            })
-        }
-        console.log('selected option: ', res)
+    handleOnChangeDesc = (event) => {
+        this.setState({ description: event.target.value })
     }
-    buildDataInputSelectMember = (inputData) => {
+    buildDataInputSelect = (inputData) => {
         let result = []
         if (inputData && inputData.length > 0) {
             inputData.map((item, index) => {
                 let object = {}
                 object.label = `${item.firstName} ${item.lastName}`
-                object.value = item.id
-                result.push(object)
-            })
-        }
-        return result
-    }
-    buildDataInputSelectTeam = (inputData) => {
-        let result = []
-        if (inputData && inputData.length > 0) {
-            inputData.map((item, index) => {
-                let object = {}
-                object.label = `${item.name}`
                 object.value = item.id
                 result.push(object)
             })
@@ -118,18 +97,19 @@ class JoinTeam extends Component {
                         <div className='content-left form-group'>
                             <label>Chọn thành viên</label>
                             <Select
-                                value={this.state.selectedOptionMember}
-                                onChange={this.handleChangeSelectMember}
+                                value={this.state.selectedOption}
+                                onChange={this.handleChangeSelect}
                                 options={this.state.listMembers}
                             />
                         </div>
                         <div className='content-right'>
-                            <label>Chọn nhóm</label>
-                            <Select
-                                value={this.state.selectedOptionTeam}
-                                onChange={this.handleChangeSelectTeam}
-                                options={this.state.listTeams}
-                            />
+                            <label>Giới thiệu</label>
+                            <textarea className='form-control' rows='4'
+                                onChange={(event) => this.handleOnChangeDesc(event)}
+                                value={this.state.description}
+                            >
+
+                            </textarea>
                         </div>
                     </div>
                     <div className='manage-user-editor'>
@@ -146,7 +126,7 @@ class JoinTeam extends Component {
                                     bgcolor: '#3c40c6'
                                 },
                             }}
-                            onClick={() => this.handleSaveUserOnTeam()}>
+                            onClick={() => this.handleSaveContentMarkdown()}>
                             Save
                             {/* Save details */}
                         </Button>
@@ -163,21 +143,17 @@ class JoinTeam extends Component {
 
 const mapStateToProps = state => {
     return {
-        listTeams: state.admin.teams,
         listUsers: state.admin.users
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchTeamRedux: () => dispatch(actions.fetchAllTeamsStart()),
-        deleteATeamRedux: (id) => dispatch(actions.deleteATeam(id)),
         fetchUserRedux: (id) => dispatch(actions.fetchAllUsersStart()),
-        saveUserOnTeam: (data) => dispatch(actions.saveUserOnTeam(data)),
-
+        saveDetailMember: (data) => dispatch(actions.saveDetailMember(data)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoinTeam);
+export default connect(mapStateToProps, mapDispatchToProps)(JoinProject);
 
 

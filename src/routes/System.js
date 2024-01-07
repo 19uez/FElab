@@ -8,6 +8,8 @@ import Header from '../containers/Header/Header';
 import ManagerSchedule from '../containers/System/Admin/ManagerSchedule';
 import ManageProjects from '../containers/System/project/ManageProjects'
 import ManageTeam from '../containers/System/Team/ManageTeam';
+import JoinProject from '../containers/System/project/JoinProject';
+import JoinTeam from '../containers/System/Team/JoinTeam';
 class System extends Component {
     render() {
         const { systemMenuPath, isLoggedIn } = this.props;
@@ -23,6 +25,8 @@ class System extends Component {
                             <Route path="/system/manage-schedule" component={ManagerSchedule} />
                             <Route path="/system/manage-project" component={ManageProjects} />
                             <Route path="/system/manage-team" component={ManageTeam} />
+                            <Route path="/system/join-project" component={JoinProject} />
+                            <Route path="/system/join-team" component={JoinTeam} />
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>

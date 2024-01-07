@@ -47,10 +47,8 @@ class App extends Component {
                 <Router history={history}>
                     <div className="main-container">
                         {/* <ConfirmModal /> */}
-
                         <div className="content-container">
                             <Switch>
-
                                 <Route path={path.HOME} exact component={(Home)} />
                                 <Route path={path.INTRODUCE} component={(Introduce)} />
                                 <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
