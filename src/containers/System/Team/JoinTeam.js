@@ -11,7 +11,7 @@ import { CRUD_ACTIONS } from '../../../utils/constant';
 import {
     Button
 } from '@mui/material';
-import { getAllTeamService } from '../../../services/userService';
+import { getAllTeamService, getAllUser } from '../../../services/userService';
 
 
 class JoinTeam extends Component {
@@ -23,7 +23,7 @@ class JoinTeam extends Component {
             selectedOptionMember: '',
             listMembers: [],
             listTeams: [],
-            hasOldData: false
+            // hasOldData: false
         }
     }
     componentDidMount() {
@@ -31,7 +31,7 @@ class JoinTeam extends Component {
         this.props.fetchUserRedux()
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if ((prevProps.listUsers !== this.props.listUsers) && (prevProps.listTeams !== this.props.listTeams)) {
+        if ((prevProps.listUsers !== this.props.listUsers)) {
             let dataSelectMember = this.buildDataInputSelectMember(this.props.listUsers)
             let dataSelectTeam = this.buildDataInputSelectTeam(this.props.listTeams)
             this.setState({
@@ -43,24 +43,25 @@ class JoinTeam extends Component {
 
     handleSaveUserOnTeam = () => {
         let { hasOldData } = this.state
-        this.props.saveUserOnTeam({
-            action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
-            teamId: this.state.selectedOptionTeam.value,
-            userId: this.state.selectedOptionMember.value,
+        this.props.saveUserOnTeamRedux({
+            // action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
+            idTeam: this.state.selectedOptionTeam.value,
+            idUser: this.state.selectedOptionMember.value,
         })
-        // console.log('check state: ', this.state)
+        console.log('check state: ', this.state)
     }
     handleChangeSelectTeam = async (selectedOptionTeam) => {
 
         this.setState({ selectedOptionTeam })
         let res = await getDetailInforTeam(selectedOptionTeam.value)
         if (res && res.errCode === 0 && res.data) {
+            let team = res.data.Team
             this.setState({
-                hasOldData: true
+                // hasOldData: true
             })
         } else {
             this.setState({
-                hasOldData: false
+                // hasOldData: false
             })
         }
         console.log('selected option: ', res)
@@ -68,44 +69,45 @@ class JoinTeam extends Component {
     handleChangeSelectMember = async (selectedOptionMember) => {
 
         this.setState({ selectedOptionMember })
-        let res = await getDetailInforMember(selectedOptionMember.value)
+        let res = await getAllUser(selectedOptionMember.value)
         if (res && res.errCode === 0 && res.data) {
+            let user = res.data.User
             this.setState({
-                hasOldData: true
+                // hasOldData: true
             })
         } else {
             this.setState({
-                hasOldData: false
+                // hasOldData: false
             })
         }
         console.log('selected option: ', res)
     }
     buildDataInputSelectMember = (inputData) => {
-        let result = []
+        let resultUser = []
         if (inputData && inputData.length > 0) {
             inputData.map((item, index) => {
-                let object = {}
-                object.label = `${item.firstName} ${item.lastName}`
-                object.value = item.id
-                result.push(object)
+                let objectUser = {}
+                objectUser.label = `${item.firstName} ${item.lastName}`
+                objectUser.value = item.id
+                resultUser.push(objectUser)
             })
         }
-        return result
+        return resultUser
     }
     buildDataInputSelectTeam = (inputData) => {
-        let result = []
+        let resultTeam = []
         if (inputData && inputData.length > 0) {
             inputData.map((item, index) => {
-                let object = {}
-                object.label = `${item.name}`
-                object.value = item.id
-                result.push(object)
+                let objectTeam = {}
+                objectTeam.label = `${item.name}`
+                objectTeam.value = item.id
+                resultTeam.push(objectTeam)
             })
         }
-        return result
+        return resultTeam
     }
     render() {
-        let { hasOldData } = this.state
+        // let { hasOldData } = this.state
         let arrUsers = this.state.usersRedux
         // console.log('members', this.state)
         return (
@@ -173,7 +175,7 @@ const mapDispatchToProps = dispatch => {
         fetchTeamRedux: () => dispatch(actions.fetchAllTeamsStart()),
         deleteATeamRedux: (id) => dispatch(actions.deleteATeam(id)),
         fetchUserRedux: (id) => dispatch(actions.fetchAllUsersStart()),
-        saveUserOnTeam: (data) => dispatch(actions.saveUserOnTeam(data)),
+        saveUserOnTeamRedux: (data) => dispatch(actions.saveUserOnTeam(data)),
 
     };
 };

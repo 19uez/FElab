@@ -3,113 +3,135 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './JoinProject.scss'
 import * as actions from '../../../store/actions';
-
-import MarkdownIt from 'markdown-it';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select'
 // import { getAllUser } from '../../../services/userService';
-import { getDetailInforMember } from '../../../services/userService'
+import { getDetailInforProject, getDetailInforTeam, addUserOnTeam } from '../../../services/userService'
 import { CRUD_ACTIONS } from '../../../utils/constant';
 import {
     Button
 } from '@mui/material';
+import { getAllTeamService, getAllUser } from '../../../services/userService';
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class JoinProject extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-
-            selectedOption: '',
-            description: '',
+            selectedOptionProject: '',
+            selectedOptionMember: '',
             listMembers: [],
-            hasOldData: false
+            listProjects: [],
+            // hasOldData: false
         }
     }
     componentDidMount() {
+        this.props.fetchProjectRedux()
         this.props.fetchUserRedux()
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.listUsers !== this.props.listUsers) {
-            let dataSelect = this.buildDataInputSelect(this.props.listUsers)
+        if ((prevProps.listUsers !== this.props.listUsers)) {
+            let dataSelectMember = this.buildDataInputSelectMember(this.props.listUsers)
+            let dataSelectProject = this.buildDataInputSelectProject(this.props.listProjects)
             this.setState({
-                listMembers: dataSelect
+                listMembers: dataSelectMember,
+                listProjects: dataSelectProject
             })
         }
     }
 
-    handleSaveContentMarkdown = () => {
-        let { hasOldData } = this.state
-        this.props.saveDetailMember({
-            contentHTML: this.state.contentHTML,
-            contentMarkdown: this.state.contentMarkdown,
-            description: this.state.description,
-            action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
-
-            userId: this.state.selectedOption.value,
-
+    handleSaveUserOnProject = () => {
+        // let { hasOldData } = this.state
+        this.props.saveUserOnProjectRedux({
+            // action: hasOldData === true ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
+            idProject: this.state.selectedOptionProject.value,
+            idUser: this.state.selectedOptionMember.value,
         })
-        // console.log('check state: ', this.state)
+        console.log('check state: ', this.state)
     }
-    handleChangeSelect = async (selectedOption) => {
+    handleChangeSelectProject = async (selectedOptionProject) => {
 
-        this.setState({ selectedOption })
-        let res = await getDetailInforMember(selectedOption.value)
-        if (res && res.errCode === 0 && res.data && res.data.Markdown) {
+        this.setState({ selectedOptionProject })
+        let res = await getDetailInforProject(selectedOptionProject.value)
+        if (res && res.errCode === 0 && res.data) {
+            let Project = res.data.Project
             this.setState({
-                hasOldData: true
+                // hasOldData: true
             })
         } else {
             this.setState({
-                hasOldData: false
+                // hasOldData: false
             })
         }
         console.log('selected option: ', res)
     }
-    handleOnChangeDesc = (event) => {
-        this.setState({ description: event.target.value })
-    }
-    buildDataInputSelect = (inputData) => {
-        let result = []
-        if (inputData && inputData.length > 0) {
-            inputData.map((item, index) => {
-                let object = {}
-                object.label = `${item.firstName} ${item.lastName}`
-                object.value = item.id
-                result.push(object)
+    handleChangeSelectMember = async (selectedOptionMember) => {
+
+        this.setState({ selectedOptionMember })
+        let res = await getAllUser(selectedOptionMember.value)
+        if (res && res.errCode === 0 && res.data) {
+            let user = res.data.User
+            this.setState({
+                // hasOldData: true
+            })
+        } else {
+            this.setState({
+                // hasOldData: false
             })
         }
-        return result
+        console.log('selected option: ', res)
+    }
+    buildDataInputSelectMember = (inputData) => {
+        let resultUser = []
+        if (inputData && inputData.length > 0) {
+            inputData.map((item, index) => {
+                let objectUser = {}
+                objectUser.label = `${item.firstName} ${item.lastName}`
+                objectUser.value = item.id
+                resultUser.push(objectUser)
+            })
+        }
+        return resultUser
+    }
+    buildDataInputSelectProject = (inputData) => {
+        let resultProject = []
+        if (inputData && inputData.length > 0) {
+            inputData.map((item, index) => {
+                let objectProject = {}
+                objectProject.label = `${item.name}`
+                objectProject.value = item.id
+                resultProject.push(objectProject)
+            })
+        }
+        return resultProject
     }
     render() {
-        let { hasOldData } = this.state
+        // let { hasOldData } = this.state
         let arrUsers = this.state.usersRedux
         // console.log('members', this.state)
         return (
             <React.Fragment>
                 <div className='manage-user-container'>
                     <div className='manage-user-title'>
-                        Thêm thành viên vào nhóm
+                        Thêm thành viên vào dự án
                     </div>
                     <div className='more-infor'>
                         <div className='content-left form-group'>
                             <label>Chọn thành viên</label>
                             <Select
-                                value={this.state.selectedOption}
-                                onChange={this.handleChangeSelect}
+                                value={this.state.selectedOptionMember}
+                                onChange={this.handleChangeSelectMember}
                                 options={this.state.listMembers}
                             />
                         </div>
                         <div className='content-right'>
-                            <label>Giới thiệu</label>
-                            <textarea className='form-control' rows='4'
-                                onChange={(event) => this.handleOnChangeDesc(event)}
-                                value={this.state.description}
-                            >
-
-                            </textarea>
+                            <label>Chọn dự án</label>
+                            <Select
+                                value={this.state.selectedOptionProject}
+                                onChange={this.handleChangeSelectProject}
+                                options={this.state.listProjects}
+                            />
                         </div>
                     </div>
                     <div className='manage-user-editor'>
@@ -126,7 +148,7 @@ class JoinProject extends Component {
                                     bgcolor: '#3c40c6'
                                 },
                             }}
-                            onClick={() => this.handleSaveContentMarkdown()}>
+                            onClick={() => this.handleSaveUserOnProject()}>
                             Save
                             {/* Save details */}
                         </Button>
@@ -143,14 +165,16 @@ class JoinProject extends Component {
 
 const mapStateToProps = state => {
     return {
+        listProjects: state.admin.projects,
         listUsers: state.admin.users
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchProjectRedux: () => dispatch(actions.fetchAllProjectsStart()),
         fetchUserRedux: (id) => dispatch(actions.fetchAllUsersStart()),
-        saveDetailMember: (data) => dispatch(actions.saveDetailMember(data)),
+        saveUserOnProjectRedux: (data) => dispatch(actions.saveUserOnProject(data)),
     };
 };
 

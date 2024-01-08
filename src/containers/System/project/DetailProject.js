@@ -58,9 +58,6 @@ class DetailProject extends Component {
                             style={{ backgroundImage: `url(${detailProject && detailProject.image ? detailProject.image : ''})` }}
                         ></div>
                         <div className='project-infor'>
-
-
-
                             {detailProject && detailProject.descriptionHTML
                                 && <div dangerouslySetInnerHTML={{ __html: detailProject.descriptionHTML }}>
                                 </div>}

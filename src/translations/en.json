@@ -22,7 +22,7 @@
             "manage-user": "User",
             "manage-admin": "Members Information",
             "crud-user": "CRUD User",
-            "crud-redux": "CRUD Redux",
+            "crud-redux": "CRUD Members",
             "manage-project": "Manage Projects",
             "project": "Projects",
             "schedule": "Meeting Schedule",

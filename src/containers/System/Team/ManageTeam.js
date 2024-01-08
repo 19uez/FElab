@@ -131,7 +131,7 @@ class ManageTeam extends Component {
         console.log('check state', this.state)
         return (
             <div className='manage-team-container'>
-                <div className='mp-title'>Quản lý nhóm</div>
+                <div className='mp-title'>Manage Teams</div>
 
                 <div className='add-new-team row'>
                     <div className='col-6 form-group'>

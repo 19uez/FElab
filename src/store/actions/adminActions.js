@@ -5,7 +5,8 @@ import {
     getAllTeamService, deleteTeam, editTeam, createNewTeam,
     addUserOnTeam,
     getAllProjectService, deleteProject,
-    createNewProjectService, editProject, saveDetailProjectService
+    createNewProjectService, editProject, saveDetailProjectService,
+    addUserOnProject
 } from '../../services/userService'
 import { toast } from 'react-toastify'
 // import { dispatch } from '../../redux';
@@ -223,16 +224,35 @@ export const saveUserOnTeam = (data) => {
         try {
             let res = await addUserOnTeam(data)
             if (res && res.errCode === 0) {
-                toast.success('Save infor member success')
+                toast.success('Add user on team success')
                 dispatch({ type: actionTypes.ADD_USER_ON_TEAM_SUCCESS })
             } else {
-                toast.error('Save infor member error!')
+                toast.error('Add user on team error!')
                 dispatch({ type: actionTypes.dispatch({ type: actionTypes.ADD_USER_ON_TEAM_SUCCESS }) })
             }
 
         } catch (e) {
-            toast.error('Save infor member error!')
+            toast.error('Add user on team error!')
             dispatch({ type: actionTypes.dispatch({ type: actionTypes.ADD_USER_ON_TEAM_FAILED }) })
+            console.log('ADD_USER_ON_TEAM_FAILED error', e)
+        }
+    }
+}
+export const saveUserOnProject = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await addUserOnProject(data)
+            if (res && res.errCode === 0) {
+                toast.success('Add user on project success')
+                dispatch({ type: actionTypes.ADD_USER_ON_PROJECT_SUCCESS })
+            } else {
+                toast.error('Add user on project error!')
+                dispatch({ type: actionTypes.dispatch({ type: actionTypes.ADD_USER_ON_PROJECT_FAILED }) })
+            }
+
+        } catch (e) {
+            toast.error('Add user on project error!')
+            dispatch({ type: actionTypes.dispatch({ type: actionTypes.ADD_USER_ON_PROJECT_FAILED }) })
             console.log('ADD_USER_ON_TEAM_FAILED error', e)
         }
     }

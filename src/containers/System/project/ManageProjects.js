@@ -191,7 +191,7 @@ class ManageProjects extends Component {
                 }
 
                 <div className='title text-center'>
-                    Projects
+                    Manage Projects
                 </div>
                 <div className='add-new-project row'>
                     <div className='col-6 form-group'>

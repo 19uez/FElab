@@ -91,4 +91,7 @@ export const getDetailInforTeam = (inputId) => {
 export const addUserOnTeam = (data) => {
     return axios.post('/api/add-user-team', data)
 }
+export const addUserOnProject = (data) => {
+    return axios.post('/api/add-user-project', data)
+}
 //team
