@@ -63,6 +63,8 @@ class LabMembers extends Component {
                                     let nameVi = `${item.firstName} ${item.lastName}`
                                     let phoneMembers = `${item.phone}`
                                     let emailMembers = `${item.email}`
+                                    let statusMembers = `${item.isActive}`
+                                    let status = statusMembers === '1' ? 'Active' : 'No Active'
                                     return (
                                         <div className='lab-members-cusomize' key={index} onClick={() => this.handleViewDetailMember(item)}>
                                             <div className='bg-image' style={{ backgroundImage: `url(${imageBase64})` }}></div>
@@ -72,6 +74,7 @@ class LabMembers extends Component {
 
                                             <div>Tel: {phoneMembers}</div>
                                             <div>Email: {emailMembers}</div>
+                                            <div>Status: {status}</div>
                                         </div>
                                     )
                                 })}

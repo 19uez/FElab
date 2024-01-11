@@ -30,7 +30,7 @@ class CourseHeader extends Component {
         return (
             <Box>
                 <Button
-                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '12px' }}
+                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '16px', textTransform: 'none', mx: '3px' }}
                     id="basic-button-templates"
                     aria-controls={this.state.open ? 'basic-menu-templates' : undefined}
                     aria-haspopup="true"

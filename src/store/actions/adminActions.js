@@ -6,7 +6,8 @@ import {
     addUserOnTeam,
     getAllProjectService, deleteProject,
     createNewProjectService, editProject, saveDetailProjectService,
-    addUserOnProject
+    addUserOnProject,
+    getMemberOfTeam
 } from '../../services/userService'
 import { toast } from 'react-toastify'
 // import { dispatch } from '../../redux';
@@ -509,3 +510,30 @@ export const saveDetailProject = (data) => {
     }
 }
 //Project
+
+
+export const fetchAllTeamsWUserStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getMemberOfTeam('All')
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllTeamsWUserSuccess(res.joinTeams.reverse()))
+            } else {
+                toast.error('fetch all team error!')
+                dispatch(fetchAllTeamsWUserFailed())
+            }
+
+        } catch (e) {
+            toast.error('Fetch all team error!')
+            dispatch(fetchAllTeamsWUserFailed())
+            console.log('fetchAllTeamsSuccess error', e)
+        }
+    }
+}
+export const fetchAllTeamsWUserSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_TEAM_W_USER_SUCCESS,
+    joinTeams: data
+})
+export const fetchAllTeamsWUserFailed = () => ({
+    type: actionTypes.FETCH_ALL_TEAM_W_USER_FAILED,
+})

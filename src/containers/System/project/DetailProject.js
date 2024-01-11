@@ -6,8 +6,8 @@ import './DetailProject.scss';
 import { getAllDetailProjectById, getAllCodeService } from '../../../services/userService';
 import _ from 'lodash';
 import HomeHeader from '../../HomePage/HomeHeader';
-import HomeFooter from '../../HomePage/HomeFooter';
 import { Divider } from '@mui/material';
+import Footer from '../../HomePage/Footer';
 
 class DetailProject extends Component {
 
@@ -63,7 +63,7 @@ class DetailProject extends Component {
                                 </div>}
                         </div>
                     </div>
-                    <HomeFooter />
+                    <Footer />
                 </div>
 
             </React.Fragment>

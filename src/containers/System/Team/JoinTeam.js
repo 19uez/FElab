@@ -9,9 +9,10 @@ import Select from 'react-select'
 import { getDetailInforMember, getDetailInforTeam, addUserOnTeam } from '../../../services/userService'
 import { CRUD_ACTIONS } from '../../../utils/constant';
 import {
-    Button
+    Button, Box
 } from '@mui/material';
 import { getAllTeamService, getAllUser } from '../../../services/userService';
+import TableJoinTeam from './TableJoinTeam';
 
 
 class JoinTeam extends Component {
@@ -135,6 +136,9 @@ class JoinTeam extends Component {
                         </div>
                     </div>
                     <div className='manage-user-editor'>
+                        <Box sx={{ marginY: '10px' }}>
+                            <TableJoinTeam />
+                        </Box>
                         <Button variant="contained"
                             sx={{
                                 mt: '10px',

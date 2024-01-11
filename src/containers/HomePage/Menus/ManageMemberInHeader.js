@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { withRouter } from 'react-router';
 
-
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 class ManageMemberInHeader extends Component {
     constructor(props) {
         super(props)
@@ -25,11 +25,12 @@ class ManageMemberInHeader extends Component {
         return (
             <Box>
                 <Button
-                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '12px' }}
+                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '16px', textTransform: 'none', mx: '3px' }}
                     id="basic-button-templates"
                     aria-controls={this.state.open ? 'basic-menu-templates' : undefined}
                     aria-haspopup="true"
                     aria-expanded={this.state.open ? 'true' : undefined}
+                    startIcon={<ManageAccountsIcon />}
                     onClick={() => this.goToManage()}
                 >
                     Manage Member

@@ -78,6 +78,9 @@ const actionTypes = Object.freeze({
     USER_LOGIN_FAIL: 'USER_LOGIN_FAIL',
     //login
 
+    FETCH_ALL_TEAM_W_USER_SUCCESS: 'FETCH_ALL_TEAM_W_USER_SUCCESS',
+    FETCH_ALL_TEAM_W_USER_FAILED: 'FETCH_ALL_TEAM_W_USER_FAILED',
+
 })
 
 export default actionTypes

@@ -25,6 +25,7 @@ import './HomeHeader.scss'
 import Language from './Menus/Language';
 import { FormattedMessage } from 'react-intl';
 import imageHeader from '../../assets/header-background.jpg'
+import imageBg from '../../assets/lab-members/productCurvyLines.png'
 import { withRouter } from 'react-router';
 import * as actions from '../../store/actions'
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -78,7 +79,10 @@ class HomeHeader extends Component {
                         justifyContent: 'space-between',
                         gap: 2,
                         overflowX: 'auto',
-                        bgcolor: '#1565c0',
+                        backgroundImage: `url(${imageBg})`,
+                        // backgroundRepeat: 'no-repeat',
+                        // background: 'linear-gradient(177deg, rgba(126,255,245,1) 0%, rgba(24,220,255,1) 14%, rgba(26,215,253,1) 30%, rgba(26,215,253,1) 40%, rgba(27,214,252,1) 49%, rgba(29,209,249,1) 64%, rgba(41,128,185,1) 78%, rgba(52,152,219,1) 95%)',
+                        bgcolor: '#1B9CFC',
                         '&::-webkit-scrollbar': {
                             width: '10px',
                             height: '10px'
@@ -174,7 +178,10 @@ class HomeHeader extends Component {
                         backgroundPosition: 'center',
                         height: '600px',
                         boxShadow: '0 10px 10px rgba(0,0,0,0.5)',
+
+                        // lineHeight: '300px'
                     }}>
+                        {/* <Box sx={{ textAlign: 'center', pt: '300px', fontSize: '60px', fontWeight: '1000', color: '#4b6584' }}>UPGRADE YOUR SUNDAYS</Box> */}
 
                     </Box>}
 

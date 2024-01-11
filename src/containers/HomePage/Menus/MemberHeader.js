@@ -11,8 +11,6 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Check from '@mui/icons-material/Check'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
 import { withRouter } from 'react-router';
 class MemberHeader extends Component {
     constructor(props) {
@@ -40,13 +38,12 @@ class MemberHeader extends Component {
         return (
             <Box>
                 <Button
-                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '12px' }}
+                    sx={{ color: 'white', fontWeight: 'bold', fontSize: '16px', textTransform: 'none', mx: '3px' }}
                     id="basic-button-recent"
                     aria-controls={this.state.open ? 'basic-menu-recent' : undefined}
                     aria-haspopup="true"
                     aria-expanded={this.state.open ? 'true' : undefined}
                     onClick={(event) => this.handleClick(event)}
-                    endIcon={<ExpandMoreIcon />}
                 >
                     <FormattedMessage id="homeheader.member" />
                 </Button>

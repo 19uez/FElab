@@ -1,6 +1,8 @@
 .section-lab-members {
-    height: 520px;
-    background: #ecf0f1;
+    height: 550px;
+    background-image: url('../../../assets/lab-members/productCurvyLines.png');
+    // background: #ecf0f1;
+    background-color: #fff5f8;
 
     .lab-members-container {
         margin: 0 100px;
@@ -40,6 +42,7 @@
         .lab-members-cusomize {
             padding: 0px 15px;
             width: 100%;
+            // font-family: 'Work Sans', sans-serif !important;
             cursor: pointer;
             // border: 1px solid #95a5a6;
             // box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);

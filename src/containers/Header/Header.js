@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
-
+import HomeIcon from '@mui/icons-material/Home';
 import AppsIcon from '@mui/icons-material/Apps'
 import { USER_ROLE } from '../../utils';
 import { withRouter } from 'react-router';
@@ -52,7 +52,7 @@ class Header extends Component {
                 </div>
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ paddingTop: '10px', display: 'flex' }}>
-                        <AppsIcon onClick={() => this.returnHome()} sx={{ color: 'white', cursor: 'pointer', mr: '10px', alignItems: "flex-end" }} />
+                        <HomeIcon onClick={() => this.returnHome()} sx={{ color: 'white', cursor: 'pointer', mr: '10px', alignItems: "flex-end" }} />
                         <Typography sx={{ mr: '10px' }}>
                             <FormattedMessage id="homeheader.welcome" />, {userInfo && userInfo.lastName ? userInfo.lastName : ''} !
                         </Typography>

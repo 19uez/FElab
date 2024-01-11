@@ -9,6 +9,7 @@ const initialState = {
     users: [],
     teams: [],
     projects: [],
+    joinTeams: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -84,6 +85,16 @@ const adminReducer = (state = initialState, action) => {
             }
         case actionTypes.FETCH_ALL_PROJECT_FAILED:
             state.projects = []
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ALL_TEAM_W_USER_SUCCESS:
+            state.joinTeams = action.joinTeams
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_ALL_TEAM_W_USER_FAILED:
+            state.joinTeams = []
             return {
                 ...state,
             }
