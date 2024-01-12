@@ -117,7 +117,7 @@ class ManageProjects extends Component {
                 imageBase64: '',
             })
             await this.getAllProjectFormReact()
-            emitter.emit('EVENT_CLEAR_MODAL_DATA')
+            // emitter.emit('EVENT_CLEAR_MODAL_DATA')
         } else {
             toast.error('Something wrongs ...')
             console.log('>> An check res: ', res)
