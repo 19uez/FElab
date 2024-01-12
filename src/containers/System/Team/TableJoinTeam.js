@@ -8,18 +8,29 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip'
-
+import { getMemberOfTeam } from '../../../services/userService';
 
 class TableJoinTeam extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            joinTeamRedux: []
+            joinTeamRedux: [],
+            joinTeamMember: [],
         }
     }
-    componentDidMount() {
-        this.props.fetchUserOnTeamRedux()
+    async componentDidMount() {
+        await this.getAllUserOfTeamFormReact()
+    }
+    getAllUserOfTeamFormReact = async () => {
+        let idM = this.props.idM;
+        let response = await getMemberOfTeam(idM)
+        if (response && response.errCode === 0) {
+            //setState la ham bat dong bo
+            this.setState({
+                joinTeamMember: response.users,
+            })
+        }
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.listUserOnTeam !== this.props.listUserOnTeam) {
@@ -29,29 +40,25 @@ class TableJoinTeam extends Component {
         }
 
     }
-    handleDeleteUser = (user) => {
-        this.props.deleteAUserRedux(user.id)
-    }
-    handleEditUser = (user) => {
-        this.props.handleEditUserFromParentKey(user)
-    }
 
     render() {
-        let arrUserOnTeam = this.state.joinTeamRedux
+        let arrUserOnTeam = this.state.joinTeamMember
+        console.log('check arr: ', arrUserOnTeam)
         return (
             <React.Fragment>
                 <table id="TableManagerUser">
                     <tbody>
                         <tr>
-                            <th>idUser</th>
-                            <th>idTeam</th>
+                            <th>Name Member</th>
+                            <th>Name Team</th>
+                            <th>Actions</th>
                         </tr>
 
                         {arrUserOnTeam && arrUserOnTeam.length > 0 && arrUserOnTeam.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{item.idUser}</td>
-                                    <td>{item.idTeam}</td>
+                                    <td>{item.lastName}</td>
+                                    <td>{'Nhóm 3'}</td>
                                     <td>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
                                             <Tooltip title='Edit this members' >
@@ -62,9 +69,9 @@ class TableJoinTeam extends Component {
                                                         '&:hover': { borderColor: '#EE5A24' },
                                                         cursor: 'pointer'
                                                     }}
-                                                    onClick={() => {
-                                                        this.handleEditUser(item)
-                                                    }}
+                                                // onClick={() => {
+                                                //     this.handleEditUser(item)
+                                                // }}
                                                 />
                                             </Tooltip>
                                             <Tooltip title='Delete this members' >
@@ -75,9 +82,9 @@ class TableJoinTeam extends Component {
                                                         '&:hover': { borderColor: '#b71540' },
                                                         cursor: 'pointer'
                                                     }}
-                                                    onClick={() => {
-                                                        this.handleDeleteUser(item)
-                                                    }}
+                                                // onClick={() => {
+                                                //     this.handleDeleteUser(item)
+                                                // }}
 
                                                 />
                                             </Tooltip>

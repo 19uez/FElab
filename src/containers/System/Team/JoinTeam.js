@@ -13,7 +13,11 @@ import {
 } from '@mui/material';
 import { getAllTeamService, getAllUser } from '../../../services/userService';
 import TableJoinTeam from './TableJoinTeam';
-
+import EditIcon from '@mui/icons-material/Edit';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip'
+import { getMemberOfTeam } from '../../../services/userService';
 
 class JoinTeam extends Component {
 
@@ -24,9 +28,11 @@ class JoinTeam extends Component {
             selectedOptionMember: '',
             listMembers: [],
             listTeams: [],
+
             // hasOldData: false
         }
     }
+
     componentDidMount() {
         this.props.fetchTeamRedux()
         this.props.fetchUserRedux()
@@ -107,10 +113,13 @@ class JoinTeam extends Component {
         }
         return resultTeam
     }
+
     render() {
         // let { hasOldData } = this.state
         let arrUsers = this.state.usersRedux
-        // console.log('members', this.state)
+        // let arrUserOnTeam = this.state.joinTeamMember
+        // console.log('check arr: ', this.state.selectedOptionTeam.value)
+        // console.log('members', this.state.selectedOptionTeam)
         return (
             <React.Fragment>
                 <div className='manage-user-container'>
@@ -137,7 +146,7 @@ class JoinTeam extends Component {
                     </div>
                     <div className='manage-user-editor'>
                         <Box sx={{ marginY: '10px' }}>
-                            <TableJoinTeam />
+                            <TableJoinTeam idM={'8'} />
                         </Box>
                         <Button variant="contained"
                             sx={{
@@ -158,6 +167,7 @@ class JoinTeam extends Component {
                         </Button>
                     </div>
                 </div>
+
 
             </React.Fragment>
         )

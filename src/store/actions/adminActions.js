@@ -515,18 +515,18 @@ export const saveDetailProject = (data) => {
 export const fetchAllTeamsWUserStart = () => {
     return async (dispatch, getState) => {
         try {
-            let res = await getMemberOfTeam('All')
+            let res = await getMemberOfTeam('8')
             if (res && res.errCode === 0) {
                 dispatch(fetchAllTeamsWUserSuccess(res.joinTeams.reverse()))
             } else {
-                toast.error('fetch all team error!')
+                toast.error('fetch all user of team error!')
                 dispatch(fetchAllTeamsWUserFailed())
             }
 
         } catch (e) {
-            toast.error('Fetch all team error!')
+            toast.error('fetch all user of team error!')
             dispatch(fetchAllTeamsWUserFailed())
-            console.log('fetchAllTeamsSuccess error', e)
+            console.log('fetch all user of team error', e)
         }
     }
 }

@@ -3,18 +3,20 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import './DetailProject.scss';
-import { getAllDetailProjectById, getAllCodeService } from '../../../services/userService';
+import { getAllDetailProjectById, getAllCodeService, getMemberOfProject } from '../../../services/userService';
 import _ from 'lodash';
 import HomeHeader from '../../HomePage/HomeHeader';
 import { Divider } from '@mui/material';
 import Footer from '../../HomePage/Footer';
+import MemberOfProject from './MemberOfProject';
 
 class DetailProject extends Component {
 
     constructor(props) {
         super(props)
         this.state = ({
-            detailProject: {}
+            detailProject: {},
+            // arrUser: [],
         })
     }
     async componentDidMount() {
@@ -24,9 +26,11 @@ class DetailProject extends Component {
 
             let id = this.props.match.params.id
             let res = await getAllDetailProjectById(id)
+            // let resMember = await getMemberOfProject(id)
             if (res && res.errCode === 0) {
                 this.setState({
-                    detailProject: res.data
+                    detailProject: res.data,
+                    // arrUser: resMember.users
                 })
 
             }
@@ -40,9 +44,12 @@ class DetailProject extends Component {
     }
 
     render() {
-        console.log(this.props.match.params.id)
+        let idP = this.props.match.params.id
+        console.log(idP)
         let { detailProject } = this.state
         let nameVi = `${detailProject.name}`
+        // let arrMember = this.state
+        // let name = `${arr}`
         return (
             <React.Fragment>
                 <HomeHeader isShowBanner={false} />
@@ -56,13 +63,18 @@ class DetailProject extends Component {
                     <div className='project-detail-page'>
                         <div className='project-image'
                             style={{ backgroundImage: `url(${detailProject && detailProject.image ? detailProject.image : ''})` }}
-                        ></div>
+                        >
+                        </div>
+                        <div className='member-of-project'>
+
+                        </div>
                         <div className='project-infor'>
                             {detailProject && detailProject.descriptionHTML
                                 && <div dangerouslySetInnerHTML={{ __html: detailProject.descriptionHTML }}>
                                 </div>}
                         </div>
                     </div>
+                    <MemberOfProject idP={idP} />
                     <Footer />
                 </div>
 
